@@ -1,0 +1,36 @@
+html, 
+body {
+    height: 100%;
+    margin: 0;
+}
+
+body {
+    background-color: black;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+#main {
+    background-color: white;
+    height: 600px;
+    width: 600px;
+    border: 10px solid gray;
+    position: relative;
+}
+
+#snake-head {
+    top: 280px;
+    left: 280px;
+}
+.snake-body {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    position: absolute;
+    top: 280px;
+    left: 320px;
+    background-color: green;
+    width: 40px;
+    height: 40px;
+}
