@@ -35,12 +35,17 @@ const moveBody = (elements) => {
         top: snakeHead.style.top,
         left: snakeHead.style.left
     }
-    console.log(elements[0].style.top, "top")
-    console.log(elements[0].style.left, "left")
-    console.log(previousElement, "prev el")
+
     elements.forEach(element => {
+        const currentElement = {
+            top: element.style.top,
+            left: element.style.left
+        }
         element.style.top = previousElement.top
         element.style.left = previousElement.left
+
+        previousElement.top = currentElement.top
+        previousElement.left = currentElement.left
     });
 }
 
@@ -48,7 +53,8 @@ const observer = new IntersectionObserver(entries => {
     if (!entries[0].isIntersecting) {
         gameOverContainer.style.display = "flex"
         
-        clearInterval(intervalID)
+        clearInterval(moveBodyID)
+        clearInterval(addBodyID)
         
         gameOver = true
     }
@@ -59,7 +65,8 @@ const observer = new IntersectionObserver(entries => {
 
 observer.observe(snakeHead)
 
-let intervalID = null
+let moveBodyID = null
+let addBodyID = null
 let intervalDelay = 1000
 let gameOver = false
 
@@ -67,18 +74,28 @@ document.addEventListener("keydown", (e) => {
     if (gameOver) return
     
     if (arrowKeys.includes(e.code)) {            
-        if (intervalID) {
-            clearInterval(intervalID)
+        if (moveBodyID) {
+            clearInterval(moveBodyID)
         }
+
         const moveDirection = e.code.split("Arrow")[1].toLowerCase()
         
-        moveBody(elementsArray = Array.from(document.querySelectorAll(".snake-body:not(:first-child)")))
+        moveBody(Array.from(document.querySelectorAll(".snake-body:not(:first-child)")))
         moveInDirection[moveDirection]()
         
-        intervalID = setInterval(() => {
-            moveBody(elementsArray = Array.from(document.querySelectorAll(".snake-body:not(:first-child)")))
-            moveInDirection[e.code.split("Arrow")[1].toLowerCase()]()
+        moveBodyID = setInterval(() => {
+            moveBody(Array.from(document.querySelectorAll(".snake-body:not(:first-child)")))
+            moveInDirection[moveDirection]()
         }, intervalDelay);
+    }
+
+    if (!addBodyID) {
+        addBodyID = setInterval(() => {
+            const mainElement = document.getElementById("main")
+            const element = document.createElement("div")
+            element.classList.add("snake-body")
+            mainElement.appendChild(element)
+        }, 4000);
     }
 })
 
@@ -87,7 +104,16 @@ function restartGame() {
     snakeHead.style.top = "280px"
     snakeHead.style.left = "280px"
     snakeBody.removeAttribute("style")
-    intervalID = null
+    const snakeBodyParts = Array.from(document.querySelectorAll(".snake-body:not(:first-child)"))
+    if (snakeBodyParts.length > 1) {
+        snakeBodyParts.shift()
+
+        snakeBodyParts.forEach(bodyPart => {
+            bodyPart.remove()
+        })
+    }
+    moveBodyID = null
+    addBodyID = null
     gameOver = false
 }
 
