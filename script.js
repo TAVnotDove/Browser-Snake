@@ -1,4 +1,5 @@
 const snakeHead = document.querySelector("#snake-head")
+const gameOverContainer = document.querySelector("#game-over-container")
 const arrowKeys = ["ArrowRight", "ArrowDown", "ArrowLeft", "ArrowUp"]
 
 const moveInDirection = {
@@ -30,7 +31,11 @@ const moveInDirection = {
 
 const observer = new IntersectionObserver(entries => {
     if (!entries[0].isIntersecting) {
-        console.log("GAME OVER")
+        gameOverContainer.style.display = "flex"
+        
+        clearInterval(intervalID)
+        
+        gameOver = true
     }
 }, {
     root: document.querySelector("#main"),
@@ -41,18 +46,27 @@ observer.observe(snakeHead)
 
 let intervalID = null
 let intervalDelay = 1000
+let gameOver = false
 
 document.addEventListener("keydown", (e) => {
-    if (arrowKeys.includes(e.code)) {
+    if (gameOver) return
 
+    if (arrowKeys.includes(e.code)) {            
         if (intervalID) {
             clearInterval(intervalID)
         }
-
+        
         moveInDirection[e.code.split("Arrow")[1].toLowerCase()](snakeHead)
-
+        
         intervalID = setInterval(() => {
             moveInDirection[e.code.split("Arrow")[1].toLowerCase()](snakeHead)
         }, intervalDelay);
     }
+})
+
+document.querySelector("#play-again-button").addEventListener("click", () => {
+    gameOverContainer.style.display = "none"
+    snakeHead.removeAttribute("style")
+    intervalID = null
+    gameOver = false
 })
