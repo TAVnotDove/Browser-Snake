@@ -1,32 +1,47 @@
 const snakeHead = document.querySelector("#snake-head")
+const snakeBody = document.querySelector(".snake-body:not(:first-child)")
 const gameOverContainer = document.querySelector("#game-over-container")
 const arrowKeys = ["ArrowRight", "ArrowDown", "ArrowLeft", "ArrowUp"]
 
 const moveInDirection = {
-    up: (element) => {
-        if (element.style.top === "") {
-            element.style.top = "280px" 
+    up: () => {
+        if (snakeHead.style.top === "") {
+            snakeHead.style.top = "280px" 
         }
-        element.style.top = element.style.top.split("px")[0]-40+"px"
+        snakeHead.style.top = snakeHead.style.top.split("px")[0]-40+"px"
     },
-    down: (element) => {
-        if (element.style.top === "") {
-            element.style.top = "280px"
+    down: () => {
+        if (snakeHead.style.top === "") {
+            snakeHead.style.top = "280px"
         }
-        element.style.top = Number(element.style.top.split("px")[0])+40+"px"
+        snakeHead.style.top = Number(snakeHead.style.top.split("px")[0])+40+"px"
     },
-    left: (element) => {
-        if (element.style.left === "") {
-            element.style.left = "280px"
+    left: () => {
+        if (snakeHead.style.left === "") {
+            snakeHead.style.left = "280px"
         }
-        element.style.left = element.style.left.split("px")[0]-40+"px"
+        snakeHead.style.left = snakeHead.style.left.split("px")[0]-40+"px"
     },
-    right: (element) => {
-        if (element.style.left === "") {
-            element.style.left = "280px"
+    right: () => {
+        if (snakeHead.style.left === "") {
+            snakeHead.style.left = "280px"
         }
-        element.style.left = Number(element.style.left.split("px")[0]) + 40 +"px"
+        snakeHead.style.left = Number(snakeHead.style.left.split("px")[0]) + 40 +"px"
     }
+}
+
+const moveBody = (elements) => {
+    let previousElement = {
+        top: snakeHead.style.top,
+        left: snakeHead.style.left
+    }
+    console.log(elements[0].style.top, "top")
+    console.log(elements[0].style.left, "left")
+    console.log(previousElement, "prev el")
+    elements.forEach(element => {
+        element.style.top = previousElement.top
+        element.style.left = previousElement.left
+    });
 }
 
 const observer = new IntersectionObserver(entries => {
@@ -50,23 +65,32 @@ let gameOver = false
 
 document.addEventListener("keydown", (e) => {
     if (gameOver) return
-
+    
     if (arrowKeys.includes(e.code)) {            
         if (intervalID) {
             clearInterval(intervalID)
         }
+        const moveDirection = e.code.split("Arrow")[1].toLowerCase()
         
-        moveInDirection[e.code.split("Arrow")[1].toLowerCase()](snakeHead)
+        moveBody(elementsArray = Array.from(document.querySelectorAll(".snake-body:not(:first-child)")))
+        moveInDirection[moveDirection]()
         
         intervalID = setInterval(() => {
-            moveInDirection[e.code.split("Arrow")[1].toLowerCase()](snakeHead)
+            moveBody(elementsArray = Array.from(document.querySelectorAll(".snake-body:not(:first-child)")))
+            moveInDirection[e.code.split("Arrow")[1].toLowerCase()]()
         }, intervalDelay);
     }
 })
 
-document.querySelector("#play-again-button").addEventListener("click", () => {
+function restartGame() {
     gameOverContainer.style.display = "none"
-    snakeHead.removeAttribute("style")
+    snakeHead.style.top = "280px"
+    snakeHead.style.left = "280px"
+    snakeBody.removeAttribute("style")
     intervalID = null
     gameOver = false
-})
+}
+
+document.querySelector("#play-again-button").addEventListener("click", restartGame)
+
+restartGame()
