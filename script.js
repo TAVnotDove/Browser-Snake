@@ -3,6 +3,9 @@ const snakeHead = document.querySelector("#snake-head")
 const snakeBody = document.querySelector(".snake-body:not(:first-child)")
 const gameOverContainer = document.querySelector("#game-over-container")
 const arrowKeys = ["ArrowRight", "ArrowDown", "ArrowLeft", "ArrowUp"]
+const score = document.querySelectorAll("#scoreboard p")[0]
+const highScore = document.querySelectorAll("#scoreboard p")[1]
+
 let addedBodyPart = null
 
 const moveInDirection = {
@@ -67,6 +70,7 @@ function hitApple() {
         const element = document.createElement("div")
         element.classList.add("snake-body")
         addedBodyPart = element
+        increaseScores()
         addApple()
     }
 }
@@ -165,7 +169,7 @@ function restartGame() {
     moveBodyID = null
     addBodyID = null
     gameOver = false
-
+    score.textContent = "SCORE: 0"
     addApple()
 }
 
@@ -205,5 +209,17 @@ function getApplePosition() {
         }
     } else {
         return getApplePosition()
+    }
+}
+
+function increaseScores() {
+    let currentScore = Number(score.textContent.split("SCORE:")[1])
+    let currentHighScore = Number(highScore.textContent.split("HIGH SCORE:")[1])
+
+    currentScore++
+    score.textContent = `SCORE: ${currentScore}`
+    if (currentScore > currentHighScore) {
+        currentHighScore++
+        highScore.textContent = `HIGH SCORE: ${currentHighScore}`
     }
 }
