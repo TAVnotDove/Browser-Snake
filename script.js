@@ -46,6 +46,9 @@ function hitBody() {
             const isVertical = snakeHead.offsetTop < bodyPart.offsetTop + bodyPart.offsetHeight && snakeHead.offsetTop + snakeHead.offsetHeight > bodyPart.offsetTop
 
             if (isHorizontal && isVertical) {
+                if (newHighScore) {
+                    document.querySelector("#new-high-score").textContent = "New High Score!"
+                }
                 gameOverContainer.style.display = "flex"
         
                 clearInterval(moveBodyID)
@@ -104,6 +107,9 @@ const moveBody = (elements) => {
 
 const observer = new IntersectionObserver(entries => {
     if (!entries[0].isIntersecting) {
+        if (newHighScore) {
+            document.querySelector("#new-high-score").textContent = "New High Score!"
+        }
         gameOverContainer.style.display = "flex"
         
         clearInterval(moveBodyID)
@@ -122,6 +128,7 @@ let moveBodyID = null
 let addBodyID = null
 let intervalDelay = 1000
 let gameOver = false
+let newHighScore = false
 
 document.addEventListener("keydown", (e) => {
     if (gameOver) return
@@ -169,6 +176,8 @@ function restartGame() {
     moveBodyID = null
     addBodyID = null
     gameOver = false
+    newHighScore = false
+    document.querySelector("#new-high-score").textContent = ""
     score.textContent = "SCORE: 0"
     addApple()
 }
@@ -219,6 +228,9 @@ function increaseScores() {
     currentScore++
     score.textContent = `SCORE: ${currentScore}`
     if (currentScore > currentHighScore) {
+        if (!newHighScore) {
+            newHighScore = true
+        }
         currentHighScore++
         highScore.textContent = `HIGH SCORE: ${currentHighScore}`
     }
