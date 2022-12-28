@@ -184,11 +184,26 @@ document.querySelector("#play-again-button").addEventListener("click", restartGa
 restartGame()
 
 function getApplePosition() {
-    const appleTop = Math.floor(Math.random() * 560)
-    const appleLeft = Math.floor(Math.random() * 560)
-    
-	return {
-        top: Math.round(appleTop/40) * 40,
-        left: Math.round(appleLeft/40) * 40,        
+    const appleTop = Math.round(Math.floor(Math.random() * 560)/40) * 40
+    const appleLeft = Math.round(Math.floor(Math.random() * 560)/40) * 40
+    let flag = false
+    const snakeBodyParts = Array.from(document.querySelectorAll(".snake-body"))
+    snakeBodyParts.forEach(bodyPart => {
+        const isHorizontal = appleLeft < bodyPart.offsetLeft + bodyPart.offsetWidth && appleLeft + 40 > bodyPart.offsetLeft
+        const isVertical = appleTop < bodyPart.offsetTop + bodyPart.offsetHeight && appleTop + 40 > bodyPart.offsetTop
+
+        if (isHorizontal && isVertical) {
+            flag = true
+            return
+        }
+    })
+
+    if (!flag) {
+        return {
+            top: appleTop,
+            left: appleLeft,        
+        }
+    } else {
+        return getApplePosition()
     }
 }
