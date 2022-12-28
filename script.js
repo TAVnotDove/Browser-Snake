@@ -32,6 +32,30 @@ const moveInDirection = {
     }
 }
 
+function hitBody() {
+    const snakeBodyParts = Array.from(document.querySelectorAll(".snake-body:not(:first-child)"))
+    if (snakeBodyParts.length > 3) {
+        const newSlice = snakeBodyParts.slice(3)
+        for (let i = 0; i < newSlice.length; i++) {
+            const bodyPart = newSlice[i];
+            
+            const isHorizontal = snakeHead.offsetLeft < bodyPart.offsetLeft + bodyPart.offsetWidth && snakeHead.offsetLeft + snakeHead.offsetWidth > bodyPart.offsetLeft
+            const isVertical = snakeHead.offsetTop < bodyPart.offsetTop + bodyPart.offsetHeight && snakeHead.offsetTop + snakeHead.offsetHeight > bodyPart.offsetTop
+
+            if (isHorizontal && isVertical) {
+                gameOverContainer.style.display = "flex"
+        
+                clearInterval(moveBodyID)
+                clearInterval(addBodyID)
+                
+                gameOver = true
+                
+                return
+            }
+        }
+    }
+}
+
 const moveBody = (elements) => {
     let previousElement = {
         top: snakeHead.style.top,
@@ -92,10 +116,14 @@ document.addEventListener("keydown", (e) => {
         
         moveBody(Array.from(document.querySelectorAll(".snake-body:not(:first-child)")))
         moveInDirection[moveDirection]()
-        
+        hitBody()
+
+        if (gameOver) return
+
         moveBodyID = setInterval(() => {
             moveBody(Array.from(document.querySelectorAll(".snake-body:not(:first-child)")))
             moveInDirection[moveDirection]()
+            hitBody()
         }, intervalDelay);
     }
 
