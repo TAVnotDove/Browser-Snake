@@ -56,6 +56,16 @@ function hitBody() {
     }
 }
 
+function hitApple() {
+    const apple = document.querySelector(".apple")
+    const isHorizontal = snakeHead.offsetLeft < apple.offsetLeft + apple.offsetWidth && snakeHead.offsetLeft + snakeHead.offsetWidth > apple.offsetLeft
+    const isVertical = snakeHead.offsetTop < apple.offsetTop + apple.offsetHeight && snakeHead.offsetTop + snakeHead.offsetHeight > apple.offsetTop
+
+    if (isHorizontal && isVertical) {
+        console.log("apple is hit!")
+    }
+}
+
 const moveBody = (elements) => {
     let previousElement = {
         top: snakeHead.style.top,
@@ -117,6 +127,7 @@ document.addEventListener("keydown", (e) => {
         moveBody(Array.from(document.querySelectorAll(".snake-body:not(:first-child)")))
         moveInDirection[moveDirection]()
         hitBody()
+        hitApple()
 
         if (gameOver) return
 
@@ -124,6 +135,7 @@ document.addEventListener("keydown", (e) => {
             moveBody(Array.from(document.querySelectorAll(".snake-body:not(:first-child)")))
             moveInDirection[moveDirection]()
             hitBody()
+            hitApple()
         }, intervalDelay);
     }
 
