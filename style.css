@@ -7,6 +7,7 @@ body {
 body {
     background-color: black;
     display: flex;
+    flex-direction: column;
     justify-content: center;
     align-items: center;
 }
@@ -72,4 +73,14 @@ body {
     background-color: red;
     width: 40px;
     height: 40px;
+}
+
+#scoreboard {
+    width: 600px;
+    display: flex;
+    justify-content: space-around;
+}
+
+#scoreboard p {
+    font-size: 2rem;
 }
