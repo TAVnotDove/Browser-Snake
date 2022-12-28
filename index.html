@@ -9,6 +9,10 @@
     <title>Browser Snake</title>
 </head>
 <body>
+    <div id="scoreboard">
+        <p style="color: white;">SCORE: 0</p>
+        <p style="color: white;">HIGH SCORE: 0</p>
+    </div>
     <div id="main">
         <div id="snake-head" class="snake-body">head</div>
         <div class="snake-body">body</div>
@@ -16,6 +20,7 @@
     <div id="game-over-container">
         <div id="dark-background-overlay"></div>
         <p>GAME OVER</p>
+        <p id="new-high-score"></p>
         <div>
             <button id="play-again-button">Play again</button>
         </div>

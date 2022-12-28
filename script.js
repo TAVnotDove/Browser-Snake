@@ -3,6 +3,9 @@ const snakeHead = document.querySelector("#snake-head")
 const snakeBody = document.querySelector(".snake-body:not(:first-child)")
 const gameOverContainer = document.querySelector("#game-over-container")
 const arrowKeys = ["ArrowRight", "ArrowDown", "ArrowLeft", "ArrowUp"]
+const score = document.querySelectorAll("#scoreboard p")[0]
+const highScore = document.querySelectorAll("#scoreboard p")[1]
+
 let addedBodyPart = null
 
 const moveInDirection = {
@@ -43,6 +46,9 @@ function hitBody() {
             const isVertical = snakeHead.offsetTop < bodyPart.offsetTop + bodyPart.offsetHeight && snakeHead.offsetTop + snakeHead.offsetHeight > bodyPart.offsetTop
 
             if (isHorizontal && isVertical) {
+                if (newHighScore) {
+                    document.querySelector("#new-high-score").textContent = "New High Score!"
+                }
                 gameOverContainer.style.display = "flex"
         
                 clearInterval(moveBodyID)
@@ -67,6 +73,7 @@ function hitApple() {
         const element = document.createElement("div")
         element.classList.add("snake-body")
         addedBodyPart = element
+        increaseScores()
         addApple()
     }
 }
@@ -100,6 +107,9 @@ const moveBody = (elements) => {
 
 const observer = new IntersectionObserver(entries => {
     if (!entries[0].isIntersecting) {
+        if (newHighScore) {
+            document.querySelector("#new-high-score").textContent = "New High Score!"
+        }
         gameOverContainer.style.display = "flex"
         
         clearInterval(moveBodyID)
@@ -118,6 +128,7 @@ let moveBodyID = null
 let addBodyID = null
 let intervalDelay = 1000
 let gameOver = false
+let newHighScore = false
 
 document.addEventListener("keydown", (e) => {
     if (gameOver) return
@@ -165,7 +176,9 @@ function restartGame() {
     moveBodyID = null
     addBodyID = null
     gameOver = false
-
+    newHighScore = false
+    document.querySelector("#new-high-score").textContent = ""
+    score.textContent = "SCORE: 0"
     addApple()
 }
 
@@ -205,5 +218,20 @@ function getApplePosition() {
         }
     } else {
         return getApplePosition()
+    }
+}
+
+function increaseScores() {
+    let currentScore = Number(score.textContent.split("SCORE:")[1])
+    let currentHighScore = Number(highScore.textContent.split("HIGH SCORE:")[1])
+
+    currentScore++
+    score.textContent = `SCORE: ${currentScore}`
+    if (currentScore > currentHighScore) {
+        if (!newHighScore) {
+            newHighScore = true
+        }
+        currentHighScore++
+        highScore.textContent = `HIGH SCORE: ${currentHighScore}`
     }
 }
