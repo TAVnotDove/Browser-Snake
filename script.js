@@ -1,7 +1,9 @@
+const mainElement = document.getElementById("main")
 const snakeHead = document.querySelector("#snake-head")
 const snakeBody = document.querySelector(".snake-body:not(:first-child)")
 const gameOverContainer = document.querySelector("#game-over-container")
 const arrowKeys = ["ArrowRight", "ArrowDown", "ArrowLeft", "ArrowUp"]
+let addedBodyPart = null
 
 const moveInDirection = {
     up: () => {
@@ -35,7 +37,7 @@ const moveBody = (elements) => {
         top: snakeHead.style.top,
         left: snakeHead.style.left
     }
-
+    
     elements.forEach(element => {
         const currentElement = {
             top: element.style.top,
@@ -47,6 +49,14 @@ const moveBody = (elements) => {
         previousElement.top = currentElement.top
         previousElement.left = currentElement.left
     });
+
+    if (addedBodyPart) {
+        addedBodyPart.style.top = previousElement.top
+        addedBodyPart.style.left = previousElement.left
+        mainElement.appendChild(addedBodyPart)
+    }
+
+    addedBodyPart = null
 }
 
 const observer = new IntersectionObserver(entries => {
@@ -91,10 +101,9 @@ document.addEventListener("keydown", (e) => {
 
     if (!addBodyID) {
         addBodyID = setInterval(() => {
-            const mainElement = document.getElementById("main")
             const element = document.createElement("div")
             element.classList.add("snake-body")
-            mainElement.appendChild(element)
+            addedBodyPart = element
         }, 4000);
     }
 })
