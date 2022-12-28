@@ -56,6 +56,21 @@ function hitBody() {
     }
 }
 
+function hitApple() {
+    const apple = document.querySelector(".apple")
+    const isHorizontal = snakeHead.offsetLeft < apple.offsetLeft + apple.offsetWidth && snakeHead.offsetLeft + snakeHead.offsetWidth > apple.offsetLeft
+    const isVertical = snakeHead.offsetTop < apple.offsetTop + apple.offsetHeight && snakeHead.offsetTop + snakeHead.offsetHeight > apple.offsetTop
+
+    if (isHorizontal && isVertical) {
+        const apple = document.querySelector(".apple")
+        apple.remove()
+        const element = document.createElement("div")
+        element.classList.add("snake-body")
+        addedBodyPart = element
+        addApple()
+    }
+}
+
 const moveBody = (elements) => {
     let previousElement = {
         top: snakeHead.style.top,
@@ -117,6 +132,7 @@ document.addEventListener("keydown", (e) => {
         moveBody(Array.from(document.querySelectorAll(".snake-body:not(:first-child)")))
         moveInDirection[moveDirection]()
         hitBody()
+        hitApple()
 
         if (gameOver) return
 
@@ -124,19 +140,16 @@ document.addEventListener("keydown", (e) => {
             moveBody(Array.from(document.querySelectorAll(".snake-body:not(:first-child)")))
             moveInDirection[moveDirection]()
             hitBody()
+            hitApple()
         }, intervalDelay);
-    }
-
-    if (!addBodyID) {
-        addBodyID = setInterval(() => {
-            const element = document.createElement("div")
-            element.classList.add("snake-body")
-            addedBodyPart = element
-        }, 4000);
     }
 })
 
 function restartGame() {
+    const apple = document.querySelector(".apple")
+    if (apple) {
+        apple.remove()
+    }
     gameOverContainer.style.display = "none"
     snakeHead.style.top = "280px"
     snakeHead.style.left = "280px"
@@ -144,7 +157,7 @@ function restartGame() {
     const snakeBodyParts = Array.from(document.querySelectorAll(".snake-body:not(:first-child)"))
     if (snakeBodyParts.length > 1) {
         snakeBodyParts.shift()
-
+        
         snakeBodyParts.forEach(bodyPart => {
             bodyPart.remove()
         })
@@ -152,8 +165,45 @@ function restartGame() {
     moveBodyID = null
     addBodyID = null
     gameOver = false
+
+    addApple()
+}
+
+function addApple() {
+    const applePosition = getApplePosition()
+    const element = document.createElement("div")
+    element.classList.add("apple")
+    element.textContent = "apple"
+    element.style.top = `${applePosition.top}px`;
+    element.style.left = `${applePosition.left}px`;
+    mainElement.appendChild(element)
 }
 
 document.querySelector("#play-again-button").addEventListener("click", restartGame)
 
 restartGame()
+
+function getApplePosition() {
+    const appleTop = Math.round(Math.floor(Math.random() * 560)/40) * 40
+    const appleLeft = Math.round(Math.floor(Math.random() * 560)/40) * 40
+    let flag = false
+    const snakeBodyParts = Array.from(document.querySelectorAll(".snake-body"))
+    snakeBodyParts.forEach(bodyPart => {
+        const isHorizontal = appleLeft < bodyPart.offsetLeft + bodyPart.offsetWidth && appleLeft + 40 > bodyPart.offsetLeft
+        const isVertical = appleTop < bodyPart.offsetTop + bodyPart.offsetHeight && appleTop + 40 > bodyPart.offsetTop
+
+        if (isHorizontal && isVertical) {
+            flag = true
+            return
+        }
+    })
+
+    if (!flag) {
+        return {
+            top: appleTop,
+            left: appleLeft,        
+        }
+    } else {
+        return getApplePosition()
+    }
+}
