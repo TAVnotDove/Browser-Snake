@@ -137,6 +137,10 @@ document.addEventListener("keydown", (e) => {
 })
 
 function restartGame() {
+    const apple = document.querySelector(".apple")
+    if (apple) {
+        apple.remove()
+    }
     gameOverContainer.style.display = "none"
     snakeHead.style.top = "280px"
     snakeHead.style.left = "280px"
@@ -144,7 +148,7 @@ function restartGame() {
     const snakeBodyParts = Array.from(document.querySelectorAll(".snake-body:not(:first-child)"))
     if (snakeBodyParts.length > 1) {
         snakeBodyParts.shift()
-
+        
         snakeBodyParts.forEach(bodyPart => {
             bodyPart.remove()
         })
@@ -152,8 +156,30 @@ function restartGame() {
     moveBodyID = null
     addBodyID = null
     gameOver = false
+
+    addApple()
+}
+
+function addApple() {
+    const applePosition = getApplePosition()
+    const element = document.createElement("div")
+    element.classList.add("apple")
+    element.textContent = "apple"
+    element.style.top = `${applePosition.top}px`;
+    element.style.left = `${applePosition.left}px`;
+    mainElement.appendChild(element)
 }
 
 document.querySelector("#play-again-button").addEventListener("click", restartGame)
 
 restartGame()
+
+function getApplePosition() {
+    const appleTop = Math.floor(Math.random() * 560)
+    const appleLeft = Math.floor(Math.random() * 560)
+    
+	return {
+        top: Math.round(appleTop/40) * 40,
+        left: Math.round(appleLeft/40) * 40,        
+    }
+}
