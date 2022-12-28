@@ -62,7 +62,12 @@ function hitApple() {
     const isVertical = snakeHead.offsetTop < apple.offsetTop + apple.offsetHeight && snakeHead.offsetTop + snakeHead.offsetHeight > apple.offsetTop
 
     if (isHorizontal && isVertical) {
-        console.log("apple is hit!")
+        const apple = document.querySelector(".apple")
+        apple.remove()
+        const element = document.createElement("div")
+        element.classList.add("snake-body")
+        addedBodyPart = element
+        addApple()
     }
 }
 
@@ -137,14 +142,6 @@ document.addEventListener("keydown", (e) => {
             hitBody()
             hitApple()
         }, intervalDelay);
-    }
-
-    if (!addBodyID) {
-        addBodyID = setInterval(() => {
-            const element = document.createElement("div")
-            element.classList.add("snake-body")
-            addedBodyPart = element
-        }, 4000);
     }
 })
 
