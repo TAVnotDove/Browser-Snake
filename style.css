@@ -23,6 +23,7 @@ body {
 #snake-head {
     top: 280px;
     left: 280px;
+    z-index: 1;
 }
 .snake-body {
     display: flex;
