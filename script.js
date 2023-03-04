@@ -7,6 +7,14 @@ const score = document.querySelectorAll("#scoreboard p")[0]
 const highScore = document.querySelectorAll("#scoreboard p")[1]
 
 let addedBodyPart = null
+let currentDirection = null
+
+const oppositeDirection = {
+    up: "down",
+    down: "up",
+    left: "right",
+    right: "left",
+}
 
 const moveInDirection = {
     up: () => {
@@ -132,13 +140,17 @@ let newHighScore = false
 
 document.addEventListener("keydown", (e) => {
     if (gameOver) return
+
+    const moveDirection = e.code.split("Arrow")[1].toLowerCase()
     
+    if (currentDirection && moveDirection === oppositeDirection[currentDirection]) return
+
     if (arrowKeys.includes(e.code)) {            
         if (moveBodyID) {
             clearInterval(moveBodyID)
         }
-
-        const moveDirection = e.code.split("Arrow")[1].toLowerCase()
+        
+        currentDirection = moveDirection
         
         moveBody(Array.from(document.querySelectorAll(".snake-body:not(:first-child)")))
         moveInDirection[moveDirection]()
@@ -177,6 +189,7 @@ function restartGame() {
     addBodyID = null
     gameOver = false
     newHighScore = false
+    currentDirection = null
     document.querySelector("#new-high-score").textContent = ""
     score.textContent = "SCORE: 0"
     addApple()
