@@ -8,6 +8,11 @@ const highScore = document.querySelectorAll("#scoreboard p")[1]
 
 let addedBodyPart = null
 let currentDirection = null
+let moveBodyID = null
+let addBodyID = null
+let intervalDelay = 1000
+let gameOver = false
+let newHighScore = false
 
 const oppositeDirection = {
     up: "down",
@@ -19,37 +24,43 @@ const oppositeDirection = {
 const moveInDirection = {
     up: () => {
         if (snakeHead.style.top === "") {
-            snakeHead.style.top = "280px" 
+            snakeHead.style.top = "280px"
         }
-        snakeHead.style.top = snakeHead.style.top.split("px")[0]-40+"px"
+
+        snakeHead.style.top = snakeHead.style.top.split("px")[0] - 40 + "px"
     },
     down: () => {
         if (snakeHead.style.top === "") {
             snakeHead.style.top = "280px"
         }
-        snakeHead.style.top = Number(snakeHead.style.top.split("px")[0])+40+"px"
+
+        snakeHead.style.top = Number(snakeHead.style.top.split("px")[0]) + 40 + "px"
     },
     left: () => {
         if (snakeHead.style.left === "") {
             snakeHead.style.left = "280px"
         }
-        snakeHead.style.left = snakeHead.style.left.split("px")[0]-40+"px"
+
+        snakeHead.style.left = snakeHead.style.left.split("px")[0] - 40 + "px"
     },
     right: () => {
         if (snakeHead.style.left === "") {
             snakeHead.style.left = "280px"
         }
-        snakeHead.style.left = Number(snakeHead.style.left.split("px")[0]) + 40 +"px"
-    }
+
+        snakeHead.style.left = Number(snakeHead.style.left.split("px")[0]) + 40 + "px"
+    },
 }
 
 function hitBody() {
     const snakeBodyParts = Array.from(document.querySelectorAll(".snake-body:not(:first-child)"))
+
     if (snakeBodyParts.length > 3) {
         const newSlice = snakeBodyParts.slice(3)
+
         for (let i = 0; i < newSlice.length; i++) {
-            const bodyPart = newSlice[i];
-            
+            const bodyPart = newSlice[i]
+
             const isHorizontal = snakeHead.offsetLeft < bodyPart.offsetLeft + bodyPart.offsetWidth && snakeHead.offsetLeft + snakeHead.offsetWidth > bodyPart.offsetLeft
             const isVertical = snakeHead.offsetTop < bodyPart.offsetTop + bodyPart.offsetHeight && snakeHead.offsetTop + snakeHead.offsetHeight > bodyPart.offsetTop
 
@@ -57,13 +68,14 @@ function hitBody() {
                 if (newHighScore) {
                     document.querySelector("#new-high-score").textContent = "New High Score!"
                 }
+
                 gameOverContainer.style.display = "flex"
-        
+
                 clearInterval(moveBodyID)
                 clearInterval(addBodyID)
-                
+
                 gameOver = true
-                
+
                 return
             }
         }
@@ -78,9 +90,12 @@ function hitApple() {
     if (isHorizontal && isVertical) {
         const apple = document.querySelector(".apple")
         apple.remove()
+
         const element = document.createElement("div")
         element.classList.add("snake-body")
+
         addedBodyPart = element
+
         increaseScores()
         addApple()
     }
@@ -89,70 +104,72 @@ function hitApple() {
 const moveBody = (elements) => {
     let previousElement = {
         top: snakeHead.style.top,
-        left: snakeHead.style.left
+        left: snakeHead.style.left,
     }
-    
-    elements.forEach(element => {
+
+    elements.forEach((element) => {
         const currentElement = {
             top: element.style.top,
-            left: element.style.left
+            left: element.style.left,
         }
+
         element.style.top = previousElement.top
         element.style.left = previousElement.left
 
         previousElement.top = currentElement.top
         previousElement.left = currentElement.left
-    });
+    })
 
     if (addedBodyPart) {
         addedBodyPart.style.top = previousElement.top
         addedBodyPart.style.left = previousElement.left
+
         mainElement.appendChild(addedBodyPart)
     }
 
     addedBodyPart = null
 }
 
-const observer = new IntersectionObserver(entries => {
-    if (!entries[0].isIntersecting) {
-        if (newHighScore) {
-            document.querySelector("#new-high-score").textContent = "New High Score!"
+const observer = new IntersectionObserver(
+    (entries) => {
+        if (!entries[0].isIntersecting) {
+            if (newHighScore) {
+                document.querySelector("#new-high-score").textContent = "New High Score!"
+            }
+
+            gameOverContainer.style.display = "flex"
+
+            clearInterval(moveBodyID)
+            clearInterval(addBodyID)
+
+            gameOver = true
         }
-        gameOverContainer.style.display = "flex"
-        
-        clearInterval(moveBodyID)
-        clearInterval(addBodyID)
-        
-        gameOver = true
+    },
+    {
+        root: document.querySelector("#main"),
+        threshold: 1,
     }
-}, {
-    root: document.querySelector("#main"),
-    threshold: 1
-})
+)
 
 observer.observe(snakeHead)
-
-let moveBodyID = null
-let addBodyID = null
-let intervalDelay = 1000
-let gameOver = false
-let newHighScore = false
 
 document.addEventListener("keydown", (e) => {
     if (gameOver) return
 
     const moveDirection = e.code.split("Arrow")[1].toLowerCase()
-    
+
     if (currentDirection && moveDirection === oppositeDirection[currentDirection]) return
 
-    if (arrowKeys.includes(e.code)) {            
+    if (arrowKeys.includes(e.code)) {
         if (moveBodyID) {
             clearInterval(moveBodyID)
         }
-        
+
+        const snakeBodyParts = Array.from(document.querySelectorAll(".snake-body:not(:first-child)"))
+
         currentDirection = moveDirection
-        
-        moveBody(Array.from(document.querySelectorAll(".snake-body:not(:first-child)")))
+
+        moveBody(snakeBodyParts)
         moveInDirection[moveDirection]()
         hitBody()
         hitApple()
@@ -160,31 +177,36 @@ document.addEventListener("keydown", (e) => {
         if (gameOver) return
 
         moveBodyID = setInterval(() => {
-            moveBody(Array.from(document.querySelectorAll(".snake-body:not(:first-child)")))
+            moveBody(snakeBodyParts)
             moveInDirection[moveDirection]()
             hitBody()
             hitApple()
-        }, intervalDelay);
+        }, intervalDelay)
     }
 })
 
 function restartGame() {
     const apple = document.querySelector(".apple")
+
     if (apple) {
         apple.remove()
     }
+
     gameOverContainer.style.display = "none"
     snakeHead.style.top = "280px"
     snakeHead.style.left = "280px"
     snakeBody.removeAttribute("style")
+
     const snakeBodyParts = Array.from(document.querySelectorAll(".snake-body:not(:first-child)"))
+
     if (snakeBodyParts.length > 1) {
         snakeBodyParts.shift()
-        
-        snakeBodyParts.forEach(bodyPart => {
+
+        snakeBodyParts.forEach((bodyPart) => {
             bodyPart.remove()
         })
     }
+
     moveBodyID = null
     addBodyID = null
     gameOver = false
@@ -192,16 +214,19 @@ function restartGame() {
     currentDirection = null
     document.querySelector("#new-high-score").textContent = ""
     score.textContent = "SCORE: 0"
+
     addApple()
 }
 
 function addApple() {
     const applePosition = getApplePosition()
     const element = document.createElement("div")
+
     element.classList.add("apple")
     element.textContent = "apple"
-    element.style.top = `${applePosition.top}px`;
-    element.style.left = `${applePosition.left}px`;
+    element.style.top = `${applePosition.top}px`
+    element.style.left = `${applePosition.left}px`
+
     mainElement.appendChild(element)
 }
 
@@ -210,11 +235,14 @@ document.querySelector("#play-again-button").addEventListener("click", restartGa
 restartGame()
 
 function getApplePosition() {
-    const appleTop = Math.round(Math.floor(Math.random() * 560)/40) * 40
-    const appleLeft = Math.round(Math.floor(Math.random() * 560)/40) * 40
+    const appleTop = Math.round(Math.floor(Math.random() * 560) / 40) * 40
+    const appleLeft = Math.round(Math.floor(Math.random() * 560) / 40) * 40
+
     let flag = false
+
     const snakeBodyParts = Array.from(document.querySelectorAll(".snake-body"))
-    snakeBodyParts.forEach(bodyPart => {
+
+    snakeBodyParts.forEach((bodyPart) => {
         const isHorizontal = appleLeft < bodyPart.offsetLeft + bodyPart.offsetWidth && appleLeft + 40 > bodyPart.offsetLeft
         const isVertical = appleTop < bodyPart.offsetTop + bodyPart.offsetHeight && appleTop + 40 > bodyPart.offsetTop
 
@@ -227,7 +255,7 @@ function getApplePosition() {
     if (!flag) {
         return {
             top: appleTop,
-            left: appleLeft,        
+            left: appleLeft,
         }
     } else {
         return getApplePosition()
@@ -239,12 +267,16 @@ function increaseScores() {
     let currentHighScore = Number(highScore.textContent.split("HIGH SCORE:")[1])
 
     currentScore++
+
     score.textContent = `SCORE: ${currentScore}`
+
     if (currentScore > currentHighScore) {
         if (!newHighScore) {
             newHighScore = true
         }
+
         currentHighScore++
+
         highScore.textContent = `HIGH SCORE: ${currentHighScore}`
     }
 }
