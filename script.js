@@ -165,11 +165,9 @@ document.addEventListener("keydown", (e) => {
             clearInterval(moveBodyID)
         }
 
-        const snakeBodyParts = Array.from(document.querySelectorAll(".snake-body:not(:first-child)"))
-
         currentDirection = moveDirection
 
-        moveBody(snakeBodyParts)
+        moveBody(Array.from(document.querySelectorAll(".snake-body:not(:first-child)")))
         moveInDirection[moveDirection]()
         hitBody()
         hitApple()
@@ -177,7 +175,7 @@ document.addEventListener("keydown", (e) => {
         if (gameOver) return
 
         moveBodyID = setInterval(() => {
-            moveBody(snakeBodyParts)
+            moveBody(Array.from(document.querySelectorAll(".snake-body:not(:first-child)")))
             moveInDirection[moveDirection]()
             hitBody()
             hitApple()
