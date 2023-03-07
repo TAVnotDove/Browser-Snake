@@ -25,6 +25,23 @@ body {
     left: 280px;
     z-index: 1;
 }
+
+.snake-head-left {
+    border-radius: 75% 0% 0% 75%;
+}
+
+.snake-head-right {
+    border-radius: 0% 75% 75% 0%;
+}
+
+.snake-head-up {
+    border-radius: 75% 75% 0% 0%;
+}
+
+.snake-head-down {
+    border-radius: 0% 0% 75% 75%;
+}
+
 .snake-body {
     display: flex;
     justify-content: center;
@@ -35,6 +52,22 @@ body {
     background-color: green;
     width: 40px;
     height: 40px;
+}
+
+.snake-body-top-right-corner {
+    border-radius: 0% 75% 0% 0%;
+}
+
+.snake-body-top-left-corner {
+    border-radius: 75% 0% 0% 0%;
+}
+
+.snake-body-bottom-right-corner {
+    border-radius: 0% 0% 75% 0%;
+}
+
+.snake-body-bottom-left-corner {
+    border-radius: 0% 0% 0% 75%;
 }
 
 #dark-background-overlay {
