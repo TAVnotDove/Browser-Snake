@@ -218,14 +218,25 @@ function restartGame() {
 
 function addApple() {
     const applePosition = getApplePosition()
-    const element = document.createElement("div")
+    const appleElement = document.createElement("div")
+    const appleBottomElement = document.createElement("div")
+    const appleTopElement = document.createElement("div")
+    const appleStemElement = document.createElement("div")
+    const appleLeafElement = document.createElement("div")
 
-    element.classList.add("apple")
-    element.textContent = "apple"
-    element.style.top = `${applePosition.top}px`
-    element.style.left = `${applePosition.left}px`
+    appleElement.classList.add("apple")
+    appleElement.style.top = `${applePosition.top}px`
+    appleElement.style.left = `${applePosition.left}px`
+    appleBottomElement.classList.add("apple-bottom")
+    appleTopElement.classList.add("apple-top")
+    appleStemElement.classList.add("apple-stem")
+    appleLeafElement.classList.add("apple-leaf")
 
-    mainElement.appendChild(element)
+    appleElement.appendChild(appleBottomElement)
+    appleElement.appendChild(appleTopElement)
+    appleElement.appendChild(appleStemElement)
+    appleElement.appendChild(appleLeafElement)
+    mainElement.appendChild(appleElement)
 }
 
 document.querySelector("#play-again-button").addEventListener("click", restartGame)
