@@ -42,6 +42,48 @@ body {
     border-radius: 0% 0% 75% 75%;
 }
 
+.snake-left-eye {
+    background-color: white;
+    border-radius: 10px;
+    height: 10px;
+    border: 0.1px solid black;
+    width: 10px;
+    position: absolute;
+    bottom: 2px;
+    left: 5px;
+}
+
+.snake-left-eye-pupil {
+    background-color: black;
+    position: absolute;
+    width: 5px;
+    left: 0.5px;
+    top: 0.5px;
+    height: 5px;
+    border-radius: 10px;
+}
+
+.snake-right-eye {
+    background-color: white;
+    border-radius: 10px;
+    height: 10px;
+    border: 0.1px solid black;
+    width: 10px;
+    position: absolute;
+    top: 2px;
+    left: 5px;
+}
+
+.snake-right-eye-pupil {
+    background-color: black;
+    position: absolute;
+    width: 5px;
+    left: 0.5px;
+    bottom: 0.5px;
+    height: 5px;
+    border-radius: 10px;
+}
+
 .snake-body {
     display: flex;
     justify-content: center;
