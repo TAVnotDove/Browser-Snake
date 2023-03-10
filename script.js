@@ -21,6 +21,17 @@ const oppositeDirection = {
     right: "left",
 }
 
+function moveHead(direction) {
+    if (snakeHead.classList.contains(`snake-head-${direction}`)) return
+
+    snakeHead.classList.value.split(" ").forEach((snakeClass) => {
+        if (snakeClass.includes("snake-head")) {
+            snakeHead.classList.remove(snakeClass)
+            snakeHead.classList.add(`snake-head-${direction}`)
+        }
+    })
+}
+
 const moveInDirection = {
     up: () => {
         if (snakeHead.style.top === "") {
@@ -28,6 +39,8 @@ const moveInDirection = {
         }
 
         snakeHead.style.top = snakeHead.style.top.split("px")[0] - 40 + "px"
+
+        moveHead("up")
     },
     down: () => {
         if (snakeHead.style.top === "") {
@@ -35,6 +48,8 @@ const moveInDirection = {
         }
 
         snakeHead.style.top = Number(snakeHead.style.top.split("px")[0]) + 40 + "px"
+
+        moveHead("down")
     },
     left: () => {
         if (snakeHead.style.left === "") {
@@ -42,6 +57,8 @@ const moveInDirection = {
         }
 
         snakeHead.style.left = snakeHead.style.left.split("px")[0] - 40 + "px"
+
+        moveHead("left")
     },
     right: () => {
         if (snakeHead.style.left === "") {
@@ -49,6 +66,8 @@ const moveInDirection = {
         }
 
         snakeHead.style.left = Number(snakeHead.style.left.split("px")[0]) + 40 + "px"
+
+        moveHead("right")
     },
 }
 
