@@ -175,7 +175,7 @@ observer.observe(snakeHead)
 document.addEventListener("keydown", (e) => {
     if (gameOver) return
 
-    const moveDirection = e.code.split("Arrow")[1].toLowerCase()
+    const moveDirection = e.code.split("Arrow")[1]?.toLowerCase()
 
     if (currentDirection && moveDirection === oppositeDirection[currentDirection]) return
 
@@ -213,6 +213,7 @@ function restartGame() {
     snakeHead.style.top = "280px"
     snakeHead.style.left = "280px"
     snakeBody.removeAttribute("style")
+    moveHead("left")
 
     const snakeBodyParts = Array.from(document.querySelectorAll(".snake-body:not(:first-child)"))
 
