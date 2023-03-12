@@ -26,6 +26,40 @@ body {
     z-index: 1;
 }
 
+#snake-left-eye {
+    background-color: white;
+    border-radius: 10px;
+    height: 10px;
+    border: 0.1px solid black;
+    width: 10px;
+    position: absolute;
+}
+
+#snake-left-eye-pupil {
+    background-color: black;
+    position: absolute;
+    width: 5px;
+    height: 5px;
+    border-radius: 10px;
+}
+
+#snake-right-eye {
+    background-color: white;
+    border-radius: 10px;
+    height: 10px;
+    border: 0.1px solid black;
+    width: 10px;
+    position: absolute;
+}
+
+#snake-right-eye-pupil {
+    background-color: black;
+    position: absolute;
+    width: 5px;
+    height: 5px;
+    border-radius: 10px;
+}
+
 .snake-head-left {
     border-radius: 75% 0% 0% 75%;
 }
@@ -42,46 +76,84 @@ body {
     border-radius: 0% 0% 75% 75%;
 }
 
-.snake-left-eye {
-    background-color: white;
-    border-radius: 10px;
-    height: 10px;
-    border: 0.1px solid black;
-    width: 10px;
-    position: absolute;
+.snake-left-eye-left {
     bottom: 2px;
     left: 5px;
 }
 
-.snake-left-eye-pupil {
-    background-color: black;
-    position: absolute;
-    width: 5px;
+.snake-left-eye-pupil-left {
     left: 0.5px;
     top: 0.5px;
-    height: 5px;
-    border-radius: 10px;
 }
 
-.snake-right-eye {
-    background-color: white;
-    border-radius: 10px;
-    height: 10px;
-    border: 0.1px solid black;
-    width: 10px;
-    position: absolute;
+.snake-right-eye-left {
     top: 2px;
     left: 5px;
 }
 
-.snake-right-eye-pupil {
-    background-color: black;
-    position: absolute;
-    width: 5px;
+.snake-right-eye-pupil-left {
     left: 0.5px;
     bottom: 0.5px;
-    height: 5px;
-    border-radius: 10px;
+}
+
+.snake-left-eye-right {
+    top: 2px;
+    right: 5px;
+}
+
+.snake-left-eye-pupil-right {
+    bottom: 0.5px;
+    right: 0.5px;
+}
+
+.snake-right-eye-right {
+    bottom: 2px;
+    right: 5px;
+}
+
+.snake-right-eye-pupil-right {
+    top: 0.5px;
+    right: 0.5px;
+}
+
+.snake-left-eye-up {
+    top: 5px;
+    left: 2px;
+}
+
+.snake-left-eye-pupil-up {
+    top: 0.5px;
+    right: 0.5px;
+}
+
+.snake-right-eye-up {
+    top: 5px;
+    right: 2px;
+}
+
+.snake-right-eye-pupil-up {
+    top: 0.5px;
+    left: 0.5px;
+}
+
+.snake-left-eye-down {
+    bottom: 5px;
+    right: 2px;
+}
+
+.snake-left-eye-pupil-down {
+    bottom: 0.5px;
+    left: 0.5px;
+}
+
+.snake-right-eye-down {
+    bottom: 5px;
+    left: 2px;
+}
+
+.snake-right-eye-pupil-down {
+    bottom: 0.5px;
+    right: 0.5px;
 }
 
 .snake-body {
