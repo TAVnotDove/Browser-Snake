@@ -1,5 +1,9 @@
 const mainElement = document.getElementById("main")
 const snakeHead = document.querySelector("#snake-head")
+const snakeLeftEye = document.querySelector("#snake-left-eye")
+const snakeLeftPupil = document.querySelector("#snake-left-eye-pupil")
+const snakeRightEye = document.querySelector("#snake-right-eye")
+const snakeRightPupil = document.querySelector("#snake-right-eye-pupil")
 const snakeBody = document.querySelector(".snake-body:not(:first-child)")
 const gameOverContainer = document.querySelector("#game-over-container")
 const arrowKeys = ["ArrowRight", "ArrowDown", "ArrowLeft", "ArrowUp"]
@@ -26,8 +30,18 @@ function moveHead(direction) {
 
     snakeHead.classList.value.split(" ").forEach((snakeClass) => {
         if (snakeClass.includes("snake-head")) {
+            const oldDirection = snakeClass.split("snake-head-")[1]
+
             snakeHead.classList.remove(snakeClass)
             snakeHead.classList.add(`snake-head-${direction}`)
+            snakeLeftEye.classList.remove(`snake-left-eye-${oldDirection}`)
+            snakeLeftEye.classList.add(`snake-left-eye-${direction}`)
+            snakeLeftPupil.classList.remove(`snake-left-eye-pupil-${oldDirection}`)
+            snakeLeftPupil.classList.add(`snake-left-eye-pupil-${direction}`)
+            snakeRightEye.classList.remove(`snake-right-eye-${oldDirection}`)
+            snakeRightEye.classList.add(`snake-right-eye-${direction}`)
+            snakeRightPupil.classList.remove(`snake-right-eye-pupil-${oldDirection}`)
+            snakeRightPupil.classList.add(`snake-right-eye-pupil-${direction}`)
         }
     })
 }
