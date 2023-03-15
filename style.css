@@ -184,6 +184,22 @@ body {
     border-radius: 0% 0% 0% 75%;
 }
 
+.snake-tail-left {
+    border-radius: 50% 0% 0% 50%;
+}
+
+.snake-tail-right {
+    border-radius: 0% 50% 50% 0%;
+}
+
+.snake-tail-up {
+    border-radius: 50% 50% 0% 0%;
+}
+
+.snake-tail-down {
+    border-radius: 0% 0% 50% 50%;
+}
+
 #dark-background-overlay {
     background-color: black;
     opacity: 0.5;
