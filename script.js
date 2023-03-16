@@ -17,6 +17,8 @@ let addBodyID = null
 let intervalDelay = 1000
 let gameOver = false
 let newHighScore = false
+let currentTailBodyPart = snakeBody
+let currentTailDirection = "left"
 
 const oppositeDirection = {
     up: "down",
@@ -55,6 +57,7 @@ const moveInDirection = {
         snakeHead.style.top = snakeHead.style.top.split("px")[0] - 40 + "px"
 
         moveHead("up")
+        moveTail(currentTailDirection)
     },
     down: () => {
         if (snakeHead.style.top === "") {
@@ -64,6 +67,7 @@ const moveInDirection = {
         snakeHead.style.top = Number(snakeHead.style.top.split("px")[0]) + 40 + "px"
 
         moveHead("down")
+        moveTail(currentTailDirection)
     },
     left: () => {
         if (snakeHead.style.left === "") {
@@ -73,6 +77,7 @@ const moveInDirection = {
         snakeHead.style.left = snakeHead.style.left.split("px")[0] - 40 + "px"
 
         moveHead("left")
+        moveTail(currentTailDirection)
     },
     right: () => {
         if (snakeHead.style.left === "") {
@@ -82,6 +87,7 @@ const moveInDirection = {
         snakeHead.style.left = Number(snakeHead.style.left.split("px")[0]) + 40 + "px"
 
         moveHead("right")
+        moveTail(currentTailDirection)
     },
 }
 
@@ -158,9 +164,32 @@ const moveBody = (elements) => {
         addedBodyPart.style.left = previousElement.left
 
         mainElement.appendChild(addedBodyPart)
+
+        elements = Array.from(document.querySelectorAll(".snake-body:not(:first-child)"))
     }
 
     addedBodyPart = null
+
+    let lastElement = elements[elements.length - 1]
+    let secondToLastElement = elements[elements.length - 2]
+
+    if (secondToLastElement) {
+        if (lastElement.style.left !== secondToLastElement.style.left) {
+            if (lastElement.style.left > secondToLastElement.style.left) {
+                currentTailDirection = oppositeDirection.left
+            } else {
+                currentTailDirection = oppositeDirection.right
+            }
+        } else {
+            if (lastElement.style.top > secondToLastElement.style.top) {
+                currentTailDirection = oppositeDirection.up
+            } else {
+                currentTailDirection = oppositeDirection.down
+            }
+        }
+    } else {
+        currentTailDirection = oppositeDirection[currentDirection]
+    }
 }
 
 const observer = new IntersectionObserver(
@@ -226,7 +255,9 @@ function restartGame() {
     gameOverContainer.style.display = "none"
     snakeHead.style.top = "280px"
     snakeHead.style.left = "280px"
+    currentTailBodyPart = snakeBody
     snakeBody.removeAttribute("style")
+    snakeBody.classList.add("snake-tail-right")
     moveHead("left")
 
     const snakeBodyParts = Array.from(document.querySelectorAll(".snake-body:not(:first-child)"))
@@ -244,6 +275,7 @@ function restartGame() {
     gameOver = false
     newHighScore = false
     currentDirection = null
+    currentTailDirection = "right"
     document.querySelector("#new-high-score").textContent = ""
     score.textContent = "SCORE: 0"
 
@@ -321,5 +353,36 @@ function increaseScores() {
         currentHighScore++
 
         highScore.textContent = `HIGH SCORE: ${currentHighScore}`
+    }
+}
+
+function moveTail(direction) {
+    const snakeBodyParts = [...document.querySelectorAll(".snake-body:not(:first-child)")]
+    const lastSnakeBodyPart = snakeBodyParts[snakeBodyParts.length - 1]
+    let sClass = null
+    let flag = false
+
+    lastSnakeBodyPart.classList.value.split(" ").forEach((snakeClass) => {
+        if (snakeClass.includes("snake-tail")) {
+            flag = true
+            sClass = snakeClass
+            return
+        }
+    })
+
+    if (flag) {
+        if (!sClass.includes(direction)) {
+            currentTailBodyPart.classList.remove(sClass)
+            lastSnakeBodyPart.classList.add(`snake-tail-${direction}`)
+        }
+    } else {
+        currentTailBodyPart.classList.value.split(" ").forEach((snakeClass) => {
+            if (snakeClass.includes("snake-tail")) {
+                currentTailBodyPart.classList.remove(snakeClass)
+                lastSnakeBodyPart.classList.add(`snake-tail-${direction}`)
+
+                return (currentTailBodyPart = lastSnakeBodyPart)
+            }
+        })
     }
 }
