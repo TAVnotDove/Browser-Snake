@@ -57,7 +57,6 @@ const moveInDirection = {
         snakeHead.style.top = snakeHead.style.top.split("px")[0] - 40 + "px"
 
         moveHead("up")
-        moveTail(currentTailDirection)
     },
     down: () => {
         if (snakeHead.style.top === "") {
@@ -67,7 +66,6 @@ const moveInDirection = {
         snakeHead.style.top = Number(snakeHead.style.top.split("px")[0]) + 40 + "px"
 
         moveHead("down")
-        moveTail(currentTailDirection)
     },
     left: () => {
         if (snakeHead.style.left === "") {
@@ -77,7 +75,6 @@ const moveInDirection = {
         snakeHead.style.left = snakeHead.style.left.split("px")[0] - 40 + "px"
 
         moveHead("left")
-        moveTail(currentTailDirection)
     },
     right: () => {
         if (snakeHead.style.left === "") {
@@ -87,7 +84,6 @@ const moveInDirection = {
         snakeHead.style.left = Number(snakeHead.style.left.split("px")[0]) + 40 + "px"
 
         moveHead("right")
-        moveTail(currentTailDirection)
     },
 }
 
@@ -174,14 +170,14 @@ const moveBody = (elements) => {
     let secondToLastElement = elements[elements.length - 2]
 
     if (secondToLastElement) {
-        if (lastElement.style.left !== secondToLastElement.style.left) {
-            if (lastElement.style.left > secondToLastElement.style.left) {
+        if (Number(lastElement.style.left.split("px")[0]) !== Number(secondToLastElement.style.left.split("px")[0])) {
+            if (Number(lastElement.style.left.split("px")[0]) > Number(secondToLastElement.style.left.split("px")[0])) {
                 currentTailDirection = oppositeDirection.left
             } else {
                 currentTailDirection = oppositeDirection.right
             }
         } else {
-            if (lastElement.style.top > secondToLastElement.style.top) {
+            if (Number(lastElement.style.top.split("px")[0]) > Number(secondToLastElement.style.top.split("px")[0])) {
                 currentTailDirection = oppositeDirection.up
             } else {
                 currentTailDirection = oppositeDirection.down
@@ -233,6 +229,7 @@ document.addEventListener("keydown", (e) => {
         moveInDirection[moveDirection]()
         hitBody()
         hitApple()
+        moveTail(currentTailDirection)
 
         if (gameOver) return
 
@@ -241,6 +238,7 @@ document.addEventListener("keydown", (e) => {
             moveInDirection[moveDirection]()
             hitBody()
             hitApple()
+            moveTail(currentTailDirection)
         }, intervalDelay)
     }
 })
@@ -374,14 +372,14 @@ function moveTail(direction) {
         if (!sClass.includes(direction)) {
             currentTailBodyPart.classList.remove(sClass)
             lastSnakeBodyPart.classList.add(`snake-tail-${direction}`)
+            currentTailBodyPart = lastSnakeBodyPart
         }
     } else {
         currentTailBodyPart.classList.value.split(" ").forEach((snakeClass) => {
             if (snakeClass.includes("snake-tail")) {
                 currentTailBodyPart.classList.remove(snakeClass)
                 lastSnakeBodyPart.classList.add(`snake-tail-${direction}`)
-
-                return (currentTailBodyPart = lastSnakeBodyPart)
+                currentTailBodyPart = lastSnakeBodyPart
             }
         })
     }
