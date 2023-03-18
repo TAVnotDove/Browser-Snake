@@ -258,7 +258,7 @@ body {
     height: 0;
     border-left: 20px solid transparent;
     border-right: 20px solid transparent;
-    border-top: 6px solid white;
+    border-top: 5.4px solid white;
 }
 
 .apple-stem {
@@ -266,9 +266,9 @@ body {
     width: 3px;
     background-color: #581506;
     rotate: -10deg;
-    top: 0px;
+    top: 0.25px;
     position: absolute;
-    left: 17px;
+    left: 17px;;
 }
 
 .apple-leaf {
