@@ -230,6 +230,7 @@ document.addEventListener("keydown", (e) => {
         hitBody()
         hitApple()
         moveTail(currentTailDirection)
+        changeBodyCorner(Array.from(document.querySelectorAll(".snake-body")))
 
         if (gameOver) return
 
@@ -239,6 +240,7 @@ document.addEventListener("keydown", (e) => {
             hitBody()
             hitApple()
             moveTail(currentTailDirection)
+            changeBodyCorner(Array.from(document.querySelectorAll(".snake-body")))
         }, intervalDelay)
     }
 })
@@ -382,5 +384,27 @@ function moveTail(direction) {
                 currentTailBodyPart = lastSnakeBodyPart
             }
         })
+    }
+}
+
+function changeBodyCorner(elements) {
+    for (let i = 1; i < elements.length - 1; i++) {
+        const previous = { top: Number(elements[i - 1].style.top.split("px")[0]), left: Number(elements[i - 1].style.left.split("px")[0]) }
+        const current = { top: Number(elements[i].style.top.split("px")[0]), left: Number(elements[i].style.left.split("px")[0]) }
+        const next = { top: Number(elements[i + 1].style.top.split("px")[0]), left: Number(elements[i + 1].style.left.split("px")[0]) }
+
+        if ((previous.top === current.top && next.top === current.top) || (previous.left === current.left && next.left === current.left)) {
+            elements[i].classList.value = "snake-body"
+        } else {
+            if ((previous.left > current.left && next.top > current.top) || (previous.top > current.top && next.left > current.left)) {
+                elements[i].classList.value = "snake-body snake-body-top-left-corner"
+            } else if ((previous.left < current.left && next.top > current.top) || (previous.top > current.top && next.left < current.left)) {
+                elements[i].classList.value = "snake-body snake-body-top-right-corner"
+            } else if ((previous.left > current.left && next.top < current.top) || (previous.top < current.top && next.left > current.left)) {
+                elements[i].classList.value = "snake-body snake-body-bottom-left-corner"
+            } else if ((previous.left < current.left && next.top < current.top) || (previous.top < current.top && next.left < current.left)) {
+                elements[i].classList.value = "snake-body snake-body-bottom-right-corner"
+            }
+        }
     }
 }
