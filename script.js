@@ -111,6 +111,8 @@ function hitBody() {
 
                 gameOver = true
 
+                localStorage.setItem("highScore", Number(highScore.textContent.split("HIGH SCORE:")[1]))
+
                 return
             }
         }
@@ -201,6 +203,8 @@ const observer = new IntersectionObserver(
             clearInterval(addBodyID)
 
             gameOver = true
+
+            localStorage.setItem("highScore", Number(highScore.textContent.split("HIGH SCORE:")[1]))
         }
     },
     {
@@ -268,6 +272,12 @@ function restartGame() {
         snakeBodyParts.forEach((bodyPart) => {
             bodyPart.remove()
         })
+    }
+
+    if (localStorage.getItem("highScore")) {
+        highScore.textContent = `HIGH SCORE: ${localStorage.getItem("highScore")}`
+    } else {
+        highScore.textContent = `HIGH SCORE: 0`
     }
 
     moveBodyID = null
