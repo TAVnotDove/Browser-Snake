@@ -5,6 +5,7 @@ const snakeLeftPupil = document.querySelector("#snake-left-eye-pupil")
 const snakeRightEye = document.querySelector("#snake-right-eye")
 const snakeRightPupil = document.querySelector("#snake-right-eye-pupil")
 const snakeBody = document.querySelector(".snake-body:not(:first-child)")
+const gameStartContainer = document.querySelector("#game-start-container")
 const gameOverContainer = document.querySelector("#game-over-container")
 const arrowKeys = ["ArrowRight", "ArrowDown", "ArrowLeft", "ArrowUp"]
 const score = document.querySelectorAll("#scoreboard p")[0]
@@ -15,7 +16,7 @@ let currentDirection = null
 let moveBodyID = null
 let addBodyID = null
 let intervalDelay = 1000
-let gameOver = false
+let gameOver = true
 let newHighScore = false
 let currentTailBodyPart = snakeBody
 let currentTailDirection = "left"
@@ -249,6 +250,12 @@ document.addEventListener("keydown", (e) => {
     }
 })
 
+function startGame() {
+    gameStartContainer.style.display = "none"
+
+    restartGame()
+}
+
 function restartGame() {
     const apple = document.querySelector(".apple")
 
@@ -316,8 +323,7 @@ function addApple() {
 }
 
 document.querySelector("#play-again-button").addEventListener("click", restartGame)
-
-restartGame()
+document.querySelector("#play-button").addEventListener("click", startGame)
 
 function getApplePosition() {
     const appleTop = Math.round(Math.floor(Math.random() * 560) / 40) * 40
