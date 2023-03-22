@@ -424,3 +424,9 @@ function changeBodyCorner(elements) {
         }
     }
 }
+
+function resetHighScore() {
+    localStorage.clear()
+}
+
+document.querySelector("#reset-high-score-button").addEventListener("click", resetHighScore)
