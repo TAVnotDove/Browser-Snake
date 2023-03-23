@@ -427,6 +427,25 @@ function changeBodyCorner(elements) {
 
 function resetHighScore() {
     localStorage.clear()
+    
+    toggleSettings()
 }
 
 document.querySelector("#reset-high-score-button").addEventListener("click", resetHighScore)
+
+function toggleSettings() {
+    if (!localStorage.getItem("highScore")) {
+        document.querySelector("#reset-high-score-button").disabled = true
+    } else {
+        document.querySelector("#reset-high-score-button").disabled = false
+    }
+
+    if (window.getComputedStyle(document.querySelector("#game-settings-container")).display === "none") {
+        document.querySelector("#game-settings-container").style.display = "flex"
+    } else {
+        document.querySelector("#game-settings-container").style.display = "none"
+    }
+}
+
+document.querySelector("#settings-button").addEventListener("click", toggleSettings)
+document.querySelector("#game-start-button").addEventListener("click", toggleSettings)
