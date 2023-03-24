@@ -251,9 +251,9 @@ document.addEventListener("keydown", (e) => {
 })
 
 function startGame() {
-    gameStartContainer.style.display = "none"
-
     restartGame()
+
+    toggleStart()
 }
 
 function restartGame() {
@@ -434,7 +434,7 @@ function resetHighScore() {
 document.querySelector("#reset-high-score-button").addEventListener("click", resetHighScore)
 
 function toggleSettings() {
-    if (!localStorage.getItem("highScore")) {
+    if (!localStorage.getItem("highScore") || localStorage.getItem("highScore") == 0 ) {
         document.querySelector("#reset-high-score-button").disabled = true
     } else {
         document.querySelector("#reset-high-score-button").disabled = false
@@ -447,5 +447,14 @@ function toggleSettings() {
     }
 }
 
+function toggleStart() {
+    if (window.getComputedStyle(document.querySelector("#game-start-container")).display === "none") {
+        document.querySelector("#game-start-container").style.display = "flex"
+    } else {
+        document.querySelector("#game-start-container").style.display = "none"
+    }
+}
+
 document.querySelector("#settings-button").addEventListener("click", toggleSettings)
 document.querySelector("#game-start-button").addEventListener("click", toggleSettings)
+document.querySelector("#back-game-start-button").addEventListener("click", toggleStart)
