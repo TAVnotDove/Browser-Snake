@@ -427,14 +427,14 @@ function changeBodyCorner(elements) {
 
 function resetHighScore() {
     localStorage.clear()
-    
+
     toggleSettings()
 }
 
 document.querySelector("#reset-high-score-button").addEventListener("click", resetHighScore)
 
 function toggleSettings() {
-    if (!localStorage.getItem("highScore") || localStorage.getItem("highScore") == 0 ) {
+    if (!localStorage.getItem("highScore") || localStorage.getItem("highScore") == 0) {
         document.querySelector("#reset-high-score-button").disabled = true
     } else {
         document.querySelector("#reset-high-score-button").disabled = false
@@ -457,4 +457,4 @@ function toggleStart() {
 
 document.querySelector("#settings-button").addEventListener("click", toggleSettings)
 document.querySelector("#game-start-button").addEventListener("click", toggleSettings)
-document.querySelector("#back-game-start-button").addEventListener("click", toggleStart)
+document.querySelectorAll(".back-game-start-button").forEach((button) => button.addEventListener("click", toggleStart))

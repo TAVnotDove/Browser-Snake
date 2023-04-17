@@ -24,8 +24,12 @@
         </div>
     </div>
     <div id="scoreboard">
-        <p style="color: white;">SCORE: 0</p>
-        <p style="color: white;">HIGH SCORE: 0</p>
+        <p>SCORE: 0</p>
+        <div id="game-pause-button">
+            <div></div>
+            <div></div>
+        </div>
+        <p>HIGH SCORE: 0</p>
     </div>
     <div id="main">
         <div id="snake-head" class="snake-body snake-head-left">
@@ -38,12 +42,20 @@
         </div>
         <div class="snake-body snake-tail-right"></div>
     </div>
+    <div id="game-paused-container">
+        <div class="dark-background-overlay"></div>
+        <p>GAME PAUSED</p>
+        <div>
+            <button class="back-game-start-button">Back</button>
+            <button>Continue</button>
+        </div>
+    </div>
     <div id="game-over-container">
-        <div id="dark-background-overlay"></div>
+        <div class="dark-background-overlay"></div>
         <p>GAME OVER</p>
         <p id="new-high-score"></p>
         <div>
-            <button id="back-game-start-button">Back</button>
+            <button class="back-game-start-button">Back</button>
             <button id="play-again-button">Play again</button>
         </div>
     </div>
