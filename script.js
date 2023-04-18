@@ -7,6 +7,7 @@ const snakeRightPupil = document.querySelector("#snake-right-eye-pupil")
 const snakeBody = document.querySelector(".snake-body:not(:first-child)")
 const gameStartContainer = document.querySelector("#game-start-container")
 const gameOverContainer = document.querySelector("#game-over-container")
+const gamePausedContainer = document.querySelector("#game-paused-container")
 const arrowKeys = ["ArrowRight", "ArrowDown", "ArrowLeft", "ArrowUp"]
 const score = document.querySelectorAll("#scoreboard p")[0]
 const highScore = document.querySelectorAll("#scoreboard p")[1]
@@ -17,6 +18,8 @@ let moveBodyID = null
 let addBodyID = null
 let intervalDelay = 1000
 let gameOver = true
+let gameStarted = false
+let gamePaused = false
 let newHighScore = false
 let currentTailBodyPart = snakeBody
 let currentTailDirection = "left"
@@ -217,7 +220,15 @@ const observer = new IntersectionObserver(
 observer.observe(snakeHead)
 
 document.addEventListener("keydown", (e) => {
-    if (gameOver) return
+    if (e.code === "KeyP") {
+        togglePause()
+
+        return
+    }
+
+    if (gameOver | gamePaused) return
+
+    if (!gameStarted) gameStarted = true
 
     const moveDirection = e.code.split("Arrow")[1]?.toLowerCase()
 
@@ -290,6 +301,7 @@ function restartGame() {
     moveBodyID = null
     addBodyID = null
     gameOver = false
+    gameStarted = false
     newHighScore = false
     currentDirection = null
     currentTailDirection = "right"
@@ -453,8 +465,42 @@ function toggleStart() {
     } else {
         document.querySelector("#game-start-container").style.display = "none"
     }
+
+    if (window.getComputedStyle(gamePausedContainer).display === "flex") {
+        gamePausedContainer.style.display = "none"
+
+        gamePaused = false
+    }
+}
+
+function togglePause() {
+    if (window.getComputedStyle(gamePausedContainer).display === "none") {
+        gamePausedContainer.style.display = "flex"
+
+        clearInterval(moveBodyID)
+        clearInterval(addBodyID)
+
+        gamePaused = true
+    } else {
+        gamePausedContainer.style.display = "none"
+
+        if (gameStarted) {
+            moveBodyID = setInterval(() => {
+                moveBody(Array.from(document.querySelectorAll(".snake-body:not(:first-child)")))
+                moveInDirection[currentDirection]()
+                hitBody()
+                hitApple()
+                moveTail(currentTailDirection)
+                changeBodyCorner(Array.from(document.querySelectorAll(".snake-body")))
+            }, intervalDelay)
+        }
+
+        gamePaused = false
+    }
 }
 
 document.querySelector("#settings-button").addEventListener("click", toggleSettings)
 document.querySelector("#game-start-button").addEventListener("click", toggleSettings)
 document.querySelectorAll(".back-game-start-button").forEach((button) => button.addEventListener("click", toggleStart))
+document.querySelector("#game-pause-button").addEventListener("click", togglePause)
+document.querySelector("#continue-game-button").addEventListener("click", togglePause)
