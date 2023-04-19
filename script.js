@@ -279,6 +279,7 @@ function restartGame() {
     snakeHead.style.left = "280px"
     currentTailBodyPart = snakeBody
     snakeBody.removeAttribute("style")
+    snakeBody.classList = "snake-body"
     snakeBody.classList.add("snake-tail-right")
     moveHead("left")
 
@@ -298,6 +299,7 @@ function restartGame() {
         highScore.textContent = `HIGH SCORE: 0`
     }
 
+    addedBodyPart = null
     moveBodyID = null
     addBodyID = null
     gameOver = false
