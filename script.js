@@ -456,6 +456,16 @@ function toggleSettings() {
 
     if (window.getComputedStyle(document.querySelector("#game-settings-container")).display === "none") {
         document.querySelector("#game-settings-container").style.display = "flex"
+
+        document.querySelectorAll("#start-direction-select option").forEach((option) => {
+            if (option.value === localStorage.getItem("direction")) {
+                option.selected = true
+            } else {
+                if (!option.selected) {
+                    option.selected = false
+                }
+            }
+        })
     } else {
         document.querySelector("#game-settings-container").style.display = "none"
     }
@@ -506,3 +516,6 @@ document.querySelector("#game-start-button").addEventListener("click", toggleSet
 document.querySelectorAll(".back-game-start-button").forEach((button) => button.addEventListener("click", toggleStart))
 document.querySelector("#game-pause-button").addEventListener("click", togglePause)
 document.querySelector("#continue-game-button").addEventListener("click", togglePause)
+document.querySelector("#start-direction-select").addEventListener("change", (e) => {
+    localStorage.setItem("direction", e.target.value)
+})

@@ -315,6 +315,10 @@ body {
     color: white;
 }
 
+label {
+    color: white;
+}
+
 #game-pause-button {
     display: flex;
     justify-content: space-between;
