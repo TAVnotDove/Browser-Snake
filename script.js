@@ -12,8 +12,15 @@ const arrowKeys = ["ArrowRight", "ArrowDown", "ArrowLeft", "ArrowUp"]
 const score = document.querySelectorAll("#scoreboard p")[0]
 const highScore = document.querySelectorAll("#scoreboard p")[1]
 
+const oppositeDirection = {
+    up: "down",
+    down: "up",
+    left: "right",
+    right: "left",
+}
+
 let addedBodyPart = null
-let currentDirection = null
+let currentDirection = localStorage.getItem("direction") || "left"
 let moveBodyID = null
 let addBodyID = null
 let intervalDelay = 1000
@@ -23,13 +30,6 @@ let gamePaused = false
 let newHighScore = false
 let currentTailBodyPart = snakeBody
 let currentTailDirection = "left"
-
-const oppositeDirection = {
-    up: "down",
-    down: "up",
-    left: "right",
-    right: "left",
-}
 
 function moveHead(direction) {
     if (snakeHead.classList.contains(`snake-head-${direction}`)) return
@@ -228,11 +228,11 @@ document.addEventListener("keydown", (e) => {
 
     if (gameOver | gamePaused) return
 
-    if (!gameStarted) gameStarted = true
-
     const moveDirection = e.code.split("Arrow")[1]?.toLowerCase()
 
     if (currentDirection && moveDirection === oppositeDirection[currentDirection]) return
+
+    if (!gameStarted) gameStarted = true
 
     if (arrowKeys.includes(e.code)) {
         if (moveBodyID) {
@@ -267,6 +267,33 @@ function startGame() {
     toggleStart()
 }
 
+let snakeBodyStartPositions = {
+    up: {
+        top: "320px",
+        left: "280px",
+    },
+    down: {
+        top: "240px",
+        left: "280px",
+    },
+    left: {
+        top: "280px",
+        left: "320px",
+    },
+    right: {
+        top: "280px",
+        left: "240px",
+    },
+}
+
+function resetDirections(direction) {
+    snakeBody.style.top = snakeBodyStartPositions[direction || "left"].top
+    snakeBody.style.left = snakeBodyStartPositions[direction || "left"].left
+    snakeBody.classList = `snake-body snake-tail-${oppositeDirection[direction || "left"]}`
+
+    moveHead(direction || "left")
+}
+
 function restartGame() {
     const apple = document.querySelector(".apple")
 
@@ -278,10 +305,8 @@ function restartGame() {
     snakeHead.style.top = "280px"
     snakeHead.style.left = "280px"
     currentTailBodyPart = snakeBody
-    snakeBody.removeAttribute("style")
-    snakeBody.classList = "snake-body"
-    snakeBody.classList.add("snake-tail-right")
-    moveHead("left")
+
+    resetDirections(localStorage.getItem("direction"))
 
     const snakeBodyParts = Array.from(document.querySelectorAll(".snake-body:not(:first-child)"))
 
@@ -305,7 +330,7 @@ function restartGame() {
     gameOver = false
     gameStarted = false
     newHighScore = false
-    currentDirection = null
+    currentDirection = localStorage.getItem("direction") || "left"
     currentTailDirection = "right"
     document.querySelector("#new-high-score").textContent = ""
     score.textContent = "SCORE: 0"
