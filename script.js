@@ -220,7 +220,7 @@ const observer = new IntersectionObserver(
 observer.observe(snakeHead)
 
 document.addEventListener("keydown", (e) => {
-    if (e.code === "KeyP") {
+    if (e.code === "KeyP" && !gameOver) {
         togglePause()
 
         return
