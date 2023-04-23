@@ -162,6 +162,7 @@ body {
     background-color: green;
     width: 40px;
     height: 40px;
+    transition-duration: 300ms;
 }
 
 .snake-body-top-right-corner {
