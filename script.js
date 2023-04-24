@@ -228,6 +228,15 @@ document.addEventListener("keydown", (e) => {
 
     if (gameOver | gamePaused) return
 
+    const top = Number(snakeHead.style.top.split("px")[0])
+    const left = Number(snakeHead.style.left.split("px")[0])
+
+    if (left > 560 || left < 0 || top < 0 || top > 560) {
+        gameOver = true
+
+        return
+    }
+
     const moveDirection = e.code.split("Arrow")[1]?.toLowerCase()
 
     if (currentDirection && moveDirection === oppositeDirection[currentDirection]) return
