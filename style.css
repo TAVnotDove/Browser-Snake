@@ -162,6 +162,12 @@ body {
     background-color: green;
     width: 40px;
     height: 40px;
+}
+
+.snake-body:nth-child(1),
+.snake-body:nth-child(2),
+.snake-body:nth-last-child(1),
+.snake-body:nth-last-child(3) {
     transition-duration: 300ms;
 }
 
