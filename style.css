@@ -168,7 +168,7 @@ body {
 .snake-body:nth-child(2),
 .snake-body:nth-last-child(1),
 .snake-body:nth-last-child(3) {
-    transition-duration: 300ms;
+    transition-duration: 0ms;
 }
 
 .snake-body-top-right-corner {

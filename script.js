@@ -30,6 +30,7 @@ let gamePaused = false
 let newHighScore = false
 let currentTailBodyPart = snakeBody
 let currentTailDirection = "left"
+let snakeAnimation = false || JSON.parse(localStorage.getItem("snakeAnimation"))
 
 function moveHead(direction) {
     if (snakeHead.classList.contains(`snake-head-${direction}`)) return
@@ -545,6 +546,12 @@ function togglePause() {
     }
 }
 
+if (snakeAnimation) {
+    document.querySelector("#snake-animation-toggle").checked = true
+
+    document.styleSheets[0].cssRules[29].style.cssText = "transition-duration: 300ms;"
+}
+
 document.querySelector("#settings-button").addEventListener("click", toggleSettings)
 document.querySelector("#game-start-button").addEventListener("click", toggleSettings)
 document.querySelectorAll(".back-game-start-button").forEach((button) => button.addEventListener("click", toggleStart))
@@ -552,4 +559,15 @@ document.querySelector("#game-pause-button").addEventListener("click", togglePau
 document.querySelector("#continue-game-button").addEventListener("click", togglePause)
 document.querySelector("#start-direction-select").addEventListener("change", (e) => {
     localStorage.setItem("direction", e.target.value)
+})
+document.querySelector("#snake-animation-toggle").addEventListener("change", (e) => {
+    localStorage.setItem("snakeAnimation", e.target.checked)
+
+    snakeAnimation = e.target.checked
+
+    if (snakeAnimation) {
+        document.styleSheets[0].cssRules[29].style.cssText = "transition-duration: 300ms;"
+    } else {
+        document.styleSheets[0].cssRules[29].style.cssText = "transition-duration: 0ms;"
+    }
 })
