@@ -109,16 +109,23 @@ function hitBody() {
                     document.querySelector("#new-high-score").textContent = "New High Score!"
                 }
 
-                gameOverContainer.style.display = "flex"
+                if (
+                    Number(window.getComputedStyle(snakeHead).top.split("px")[0]) % 40 === 0 &&
+                    Number(window.getComputedStyle(snakeHead).left.split("px")[0]) % 40 === 0 &&
+                    Number(window.getComputedStyle(bodyPart).top.split("px")[0]) % 40 === 0 &&
+                    Number(window.getComputedStyle(bodyPart).left.split("px")[0]) % 40 === 0
+                ) {
+                    gameOverContainer.style.display = "flex"
 
-                clearInterval(moveBodyID)
-                clearInterval(addBodyID)
+                    clearInterval(moveBodyID)
+                    clearInterval(addBodyID)
 
-                gameOver = true
+                    gameOver = true
 
-                localStorage.setItem("highScore", Number(highScore.textContent.split("HIGH SCORE:")[1]))
+                    localStorage.setItem("highScore", Number(highScore.textContent.split("HIGH SCORE:")[1]))
 
-                return
+                    return
+                }
             }
         }
     }
