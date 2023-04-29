@@ -101,31 +101,24 @@ function hitBody() {
         for (let i = 0; i < newSlice.length; i++) {
             const bodyPart = newSlice[i]
 
-            const isHorizontal = snakeHead.offsetLeft < bodyPart.offsetLeft + bodyPart.offsetWidth && snakeHead.offsetLeft + snakeHead.offsetWidth > bodyPart.offsetLeft
-            const isVertical = snakeHead.offsetTop < bodyPart.offsetTop + bodyPart.offsetHeight && snakeHead.offsetTop + snakeHead.offsetHeight > bodyPart.offsetTop
+            const isHorizontal = snakeHead.style.left < bodyPart.style.left + bodyPart.offsetWidth && snakeHead.style.left + snakeHead.offsetWidth > bodyPart.style.left
+            const isVertical = snakeHead.style.top < bodyPart.style.top + bodyPart.offsetHeight && snakeHead.style.top + snakeHead.offsetHeight > bodyPart.style.top
 
             if (isHorizontal && isVertical) {
                 if (newHighScore) {
                     document.querySelector("#new-high-score").textContent = "New High Score!"
                 }
 
-                if (
-                    Number(window.getComputedStyle(snakeHead).top.split("px")[0]) % 40 === 0 &&
-                    Number(window.getComputedStyle(snakeHead).left.split("px")[0]) % 40 === 0 &&
-                    Number(window.getComputedStyle(bodyPart).top.split("px")[0]) % 40 === 0 &&
-                    Number(window.getComputedStyle(bodyPart).left.split("px")[0]) % 40 === 0
-                ) {
-                    gameOverContainer.style.display = "flex"
+                gameOverContainer.style.display = "flex"
 
-                    clearInterval(moveBodyID)
-                    clearInterval(addBodyID)
+                clearInterval(moveBodyID)
+                clearInterval(addBodyID)
 
-                    gameOver = true
+                gameOver = true
 
-                    localStorage.setItem("highScore", Number(highScore.textContent.split("HIGH SCORE:")[1]))
+                localStorage.setItem("highScore", Number(highScore.textContent.split("HIGH SCORE:")[1]))
 
-                    return
-                }
+                return
             }
         }
     }
@@ -133,8 +126,9 @@ function hitBody() {
 
 function hitApple() {
     const apple = document.querySelector(".apple")
-    const isHorizontal = snakeHead.offsetLeft < apple.offsetLeft + apple.offsetWidth && snakeHead.offsetLeft + snakeHead.offsetWidth > apple.offsetLeft
-    const isVertical = snakeHead.offsetTop < apple.offsetTop + apple.offsetHeight && snakeHead.offsetTop + snakeHead.offsetHeight > apple.offsetTop
+
+    const isHorizontal = snakeHead.style.left < apple.style.left + apple.offsetWidth && snakeHead.style.left + snakeHead.offsetWidth > apple.style.left
+    const isVertical = snakeHead.style.top < apple.style.top + apple.offsetHeight && snakeHead.style.top + snakeHead.offsetHeight > apple.style.top
 
     if (isHorizontal && isVertical) {
         const apple = document.querySelector(".apple")
