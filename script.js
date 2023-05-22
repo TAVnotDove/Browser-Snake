@@ -241,6 +241,12 @@ document.addEventListener("keydown", (e) => {
 
     const moveDirection = e.code.split("Arrow")[1]?.toLowerCase()
 
+    if (snakeAnimation) {
+        if (moveDirection === currentDirection && gameStarted) {
+            return
+        }
+    }
+
     if (currentDirection && moveDirection === oppositeDirection[currentDirection]) return
 
     if (!gameStarted) gameStarted = true
