@@ -354,10 +354,26 @@ label {
 
 @keyframes snake-corner-down-right {}
 
-@keyframes snake-body-left {}
+@keyframes snake-body-left {
+    100% {
+        transform: translateX(-100%)
+    }
+}
 
-@keyframes snake-body-right {}
+@keyframes snake-body-right {
+    100% {
+        transform: translateX(100%)
+    }
+}
 
-@keyframes snake-body-up {}
+@keyframes snake-body-up {
+    100% {
+        transform: translateY(-100%)
+    }
+}
 
-@keyframes snake-body-down {}
+@keyframes snake-body-down {
+    100% {
+        transform: translateY(100%)
+    }
+}
