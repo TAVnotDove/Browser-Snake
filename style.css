@@ -338,21 +338,37 @@ label {
     width: 10px;
 }
 
-@keyframes snake-corner-up-right {}
+@keyframes snake-corner-up-right {
+    100% {}
+}
 
-@keyframes snake-corner-left-down {}
+@keyframes snake-corner-left-down {
+    100% {}
+}
 
-@keyframes snake-corner-up-left {}
+@keyframes snake-corner-up-left {
+    100% {}
+}
 
-@keyframes snake-corner-right-down {}
+@keyframes snake-corner-right-down {
+    100% {}
+}
 
-@keyframes snake-corner-right-up {}
+@keyframes snake-corner-right-up {
+    100% {}
+}
 
-@keyframes snake-corner-down-left {}
+@keyframes snake-corner-down-left {
+    100% {}
+}
 
-@keyframes snake-corner-left-up {}
+@keyframes snake-corner-left-up {
+    100% {}
+}
 
-@keyframes snake-corner-down-right {}
+@keyframes snake-corner-down-right {
+    100% {}
+}
 
 @keyframes snake-body-left {
     100% {
