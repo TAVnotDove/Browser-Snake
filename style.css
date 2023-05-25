@@ -338,6 +338,22 @@ label {
     width: 10px;
 }
 
+.snake-body-left {
+    animation: snake-body-left 1s linear forwards;
+}
+
+.snake-body-right {
+    animation: snake-body-right 1s linear forwards;
+}
+
+.snake-body-up {
+    animation: snake-body-up 1s linear forwards;
+}
+
+.snake-body-down {
+    animation: snake-body-down 1s linear forwards;
+}
+
 @keyframes snake-corner-up-right {
     100% {}
 }
