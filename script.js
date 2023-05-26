@@ -578,3 +578,35 @@ document.querySelector("#snake-animation-toggle").addEventListener("change", (e)
         document.styleSheets[0].cssRules[29].style.cssText = "transition-duration: 0ms;"
     }
 })
+
+// function replaceAnimation(newClass) {
+//     let divElementStyles = window.getComputedStyle(divElement)
+//     let animationClass = divElementStyles.animation.split(" ").pop()
+
+//     if (animationClass === "left-to-right") {
+//         if (divElement.style.left) {
+//             let num1 = divElement.style.left.split("px")[0] * 1
+//             let num2 = divElementStyles.width.split("px")[0] * 1
+
+//             divElement.style.left = num1 + num2 + "px"
+//         } else {
+//             divElement.style.left = window.getComputedStyle(divElement).left.split("px")[0] * 1 + divElementStyles.width.split("px")[0] * 1 + "px"
+//         }
+//     } else if (animationClass === "right-to-left") {
+//         if (divElement.style.left) {
+//             let num1 = divElement.style.left.split("px")[0] * 1
+//             let num2 = divElementStyles.width.split("px")[0] * 1
+//             divElement.style.left = num1 - num2 + "px"
+//         } else {
+//             divElement.style.left = window.getComputedStyle(divElement).left + divElementStyles.width
+//         }
+//     }
+
+//     divElement.classList.remove(animationClass)
+
+//     setTimeout(() => {
+//         divElement.classList.add(newClass)
+//     })
+// }
+
+// divElement.addEventListener("animationend", replaceAnimation)
