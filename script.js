@@ -242,14 +242,40 @@ document.addEventListener("keydown", (e) => {
     const moveDirection = e.code.split("Arrow")[1]?.toLowerCase()
 
     if (snakeAnimation) {
-        if (moveDirection === currentDirection && gameStarted) {
-            return
+        if (gameStarted) {
+            if (moveDirection === currentDirection) {
+                return
+            }
+            
+            if (arrowKeys.includes(e.code)) currentDirection = moveDirection
         }
     }
 
     if (currentDirection && moveDirection === oppositeDirection[currentDirection]) return
 
-    if (!gameStarted) gameStarted = true
+    if (!gameStarted) {
+        gameStarted = true
+
+        if (snakeAnimation) {
+            moveBody(Array.from(document.querySelectorAll(".snake-body:not(:first-child)")))
+            moveInDirection[currentDirection]()
+            hitBody()
+            hitApple()
+            moveTail(currentTailDirection)
+            changeBodyCorner(Array.from(document.querySelectorAll(".snake-body")))
+
+            moveBodyID = setInterval(() => {
+                moveBody(Array.from(document.querySelectorAll(".snake-body:not(:first-child)")))
+                moveInDirection[currentDirection]()
+                hitBody()
+                hitApple()
+                moveTail(currentTailDirection)
+                changeBodyCorner(Array.from(document.querySelectorAll(".snake-body")))
+            }, intervalDelay)
+        }
+    }
+
+    if (snakeAnimation) return
 
     if (arrowKeys.includes(e.code)) {
         if (moveBodyID) {
