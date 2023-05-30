@@ -241,37 +241,36 @@ document.addEventListener("keydown", (e) => {
 
     const moveDirection = e.code.split("Arrow")[1]?.toLowerCase()
 
+    if (moveDirection === oppositeDirection[currentDirection]) return
+
     if (snakeAnimation) {
-        if (gameStarted) {
-            if (moveDirection === currentDirection) {
-                return
-            }
-            
-            if (arrowKeys.includes(e.code)) currentDirection = moveDirection
-        }
+        if (arrowKeys.includes(e.code) && gameStarted) currentDirection = moveDirection
     }
 
-    if (currentDirection && moveDirection === oppositeDirection[currentDirection]) return
-
     if (!gameStarted) {
+        if (!arrowKeys.includes(e.code)) return
+
+        currentDirection = moveDirection
         gameStarted = true
 
         if (snakeAnimation) {
-            moveBody(Array.from(document.querySelectorAll(".snake-body:not(:first-child)")))
-            moveInDirection[currentDirection]()
-            hitBody()
-            hitApple()
-            moveTail(currentTailDirection)
-            changeBodyCorner(Array.from(document.querySelectorAll(".snake-body")))
+            snakeHead.classList.add(`snake-body-${currentDirection}`)
 
-            moveBodyID = setInterval(() => {
-                moveBody(Array.from(document.querySelectorAll(".snake-body:not(:first-child)")))
-                moveInDirection[currentDirection]()
-                hitBody()
-                hitApple()
-                moveTail(currentTailDirection)
-                changeBodyCorner(Array.from(document.querySelectorAll(".snake-body")))
-            }, intervalDelay)
+            // moveBody(Array.from(document.querySelectorAll(".snake-body:not(:first-child)")))
+            // moveInDirection[currentDirection]()
+            // hitBody()
+            // hitApple()
+            // moveTail(currentTailDirection)
+            // changeBodyCorner(Array.from(document.querySelectorAll(".snake-body")))
+
+            // moveBodyID = setInterval(() => {
+            //     moveBody(Array.from(document.querySelectorAll(".snake-body:not(:first-child)")))
+            //     moveInDirection[currentDirection]()
+            //     hitBody()
+            //     hitApple()
+            //     moveTail(currentTailDirection)
+            //     changeBodyCorner(Array.from(document.querySelectorAll(".snake-body")))
+            // }, intervalDelay)
         }
     }
 
@@ -605,34 +604,32 @@ document.querySelector("#snake-animation-toggle").addEventListener("change", (e)
     }
 })
 
-// function replaceAnimation(newClass) {
-//     let divElementStyles = window.getComputedStyle(divElement)
-//     let animationClass = divElementStyles.animation.split(" ").pop()
+function replaceAnimation(newClass) {
+    let divElementStyles = window.getComputedStyle(snakeHead)
+    let animationClass = divElementStyles.animation.split(" ").pop()
 
-//     if (animationClass === "left-to-right") {
-//         if (divElement.style.left) {
-//             let num1 = divElement.style.left.split("px")[0] * 1
-//             let num2 = divElementStyles.width.split("px")[0] * 1
+    moveBody(Array.from(document.querySelectorAll(".snake-body:not(:first-child)")))
 
-//             divElement.style.left = num1 + num2 + "px"
-//         } else {
-//             divElement.style.left = window.getComputedStyle(divElement).left.split("px")[0] * 1 + divElementStyles.width.split("px")[0] * 1 + "px"
-//         }
-//     } else if (animationClass === "right-to-left") {
-//         if (divElement.style.left) {
-//             let num1 = divElement.style.left.split("px")[0] * 1
-//             let num2 = divElementStyles.width.split("px")[0] * 1
-//             divElement.style.left = num1 - num2 + "px"
-//         } else {
-//             divElement.style.left = window.getComputedStyle(divElement).left + divElementStyles.width
-//         }
-//     }
+    if (animationClass === "snake-body-right") {
+        moveInDirection.right()
+    } else if (animationClass === "snake-body-left") {
+        moveInDirection.left()
+    } else if (animationClass === "snake-body-up") {
+        moveInDirection.up()
+    } else if (animationClass === "snake-body-down") {
+        moveInDirection.down()
+    }
 
-//     divElement.classList.remove(animationClass)
+    hitBody()
+    hitApple()
+    moveTail(currentTailDirection)
+    changeBodyCorner(Array.from(document.querySelectorAll(".snake-body")))
 
-//     setTimeout(() => {
-//         divElement.classList.add(newClass)
-//     })
-// }
+    snakeHead.classList.remove(animationClass)
 
-// divElement.addEventListener("animationend", replaceAnimation)
+    setTimeout(() => {
+        snakeHead.classList.add(`snake-body-${newClass}`)
+    })
+}
+
+snakeHead.addEventListener("animationend", () => replaceAnimation(currentDirection))
