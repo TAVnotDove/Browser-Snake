@@ -116,6 +116,10 @@ function hitBody() {
 
                 gameOver = true
 
+                if (snakeAnimation) {
+                    snakeHead.removeEventListener("animationend", wrapper)
+                }
+
                 localStorage.setItem("highScore", Number(highScore.textContent.split("HIGH SCORE:")[1]))
 
                 return
@@ -210,6 +214,10 @@ const observer = new IntersectionObserver(
 
             gameOver = true
 
+            if (snakeAnimation) {
+                snakeHead.removeEventListener("animationend", wrapper)
+            }
+
             localStorage.setItem("highScore", Number(highScore.textContent.split("HIGH SCORE:")[1]))
         }
     },
@@ -236,6 +244,10 @@ document.addEventListener("keydown", (e) => {
     if (left > 560 || left < 0 || top < 0 || top > 560) {
         gameOver = true
 
+        if (snakeAnimation) {
+            snakeHead.removeEventListener("animationend", wrapper)
+        }
+
         return
     }
 
@@ -255,22 +267,6 @@ document.addEventListener("keydown", (e) => {
 
         if (snakeAnimation) {
             snakeHead.classList.add(`snake-body-${currentDirection}`)
-
-            // moveBody(Array.from(document.querySelectorAll(".snake-body:not(:first-child)")))
-            // moveInDirection[currentDirection]()
-            // hitBody()
-            // hitApple()
-            // moveTail(currentTailDirection)
-            // changeBodyCorner(Array.from(document.querySelectorAll(".snake-body")))
-
-            // moveBodyID = setInterval(() => {
-            //     moveBody(Array.from(document.querySelectorAll(".snake-body:not(:first-child)")))
-            //     moveInDirection[currentDirection]()
-            //     hitBody()
-            //     hitApple()
-            //     moveTail(currentTailDirection)
-            //     changeBodyCorner(Array.from(document.querySelectorAll(".snake-body")))
-            // }, intervalDelay)
         }
     }
 
@@ -347,6 +343,9 @@ function restartGame() {
     snakeHead.style.top = "280px"
     snakeHead.style.left = "280px"
     currentTailBodyPart = snakeBody
+
+    snakeHead.classList.remove(snakeHead.classList[2])
+    snakeHead.addEventListener("animationend", wrapper)
 
     resetDirections(localStorage.getItem("direction"))
 
@@ -556,22 +555,37 @@ function togglePause() {
     if (window.getComputedStyle(gamePausedContainer).display === "none") {
         gamePausedContainer.style.display = "flex"
 
-        clearInterval(moveBodyID)
-        clearInterval(addBodyID)
+        if (snakeAnimation) {
+            snakeHead.removeEventListener("animationend", wrapper)
+        } else {
+            clearInterval(moveBodyID)
+            clearInterval(addBodyID)
+        }
 
         gamePaused = true
     } else {
         gamePausedContainer.style.display = "none"
 
         if (gameStarted) {
-            moveBodyID = setInterval(() => {
-                moveBody(Array.from(document.querySelectorAll(".snake-body:not(:first-child)")))
-                moveInDirection[currentDirection]()
-                hitBody()
-                hitApple()
-                moveTail(currentTailDirection)
-                changeBodyCorner(Array.from(document.querySelectorAll(".snake-body")))
-            }, intervalDelay)
+            if (snakeAnimation) {
+                let className = snakeHead.classList[2]
+
+                snakeHead.addEventListener("animationend", wrapper)
+                snakeHead.classList.remove(snakeHead.classList[2])
+
+                setTimeout(() => {
+                    snakeHead.classList.add(className)
+                })
+            } else {
+                moveBodyID = setInterval(() => {
+                    moveBody(Array.from(document.querySelectorAll(".snake-body:not(:first-child)")))
+                    moveInDirection[currentDirection]()
+                    hitBody()
+                    hitApple()
+                    moveTail(currentTailDirection)
+                    changeBodyCorner(Array.from(document.querySelectorAll(".snake-body")))
+                }, intervalDelay)
+            }
         }
 
         gamePaused = false
@@ -632,4 +646,6 @@ function replaceAnimation(newClass) {
     })
 }
 
-snakeHead.addEventListener("animationend", () => replaceAnimation(currentDirection))
+function wrapper() {
+    replaceAnimation(currentDirection)
+}
