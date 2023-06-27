@@ -256,6 +256,8 @@ document.addEventListener("keydown", (e) => {
     if (moveDirection === oppositeDirection[currentDirection]) return
 
     if (snakeAnimation) {
+        if (moveDirection === oppositeDirection[snakeHead.classList[1].split("snake-head-")[1]]) return
+
         if (arrowKeys.includes(e.code) && gameStarted) currentDirection = moveDirection
     }
 
