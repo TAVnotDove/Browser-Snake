@@ -343,7 +343,7 @@ function restartGame() {
 
     gameOverContainer.style.display = "none"
     snakeHead.style.top = "280px"
-    snakeHead.style.left = "280px"
+    snakeHead.style.left = snakeAnimation ? "300px" : "280px"
     currentTailBodyPart = snakeBody
 
     snakeHead.classList.remove(snakeHead.classList[2])
