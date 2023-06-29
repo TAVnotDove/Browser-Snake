@@ -59,7 +59,19 @@ const moveInDirection = {
             snakeHead.style.top = "280px"
         }
 
-        snakeHead.style.top = snakeHead.style.top.split("px")[0] - 40 + "px"
+        if (snakeAnimation) {
+            if (snakeHead.classList[1].includes("left")) {
+                snakeHead.style.top = snakeHead.style.top.split("px")[0] - 20 + "px"
+                snakeHead.style.left = snakeHead.style.left.split("px")[0] - 20 + "px"
+            } else if (snakeHead.classList[1].includes("right")) {
+                snakeHead.style.top = snakeHead.style.top.split("px")[0] - 20 + "px"
+                snakeHead.style.left = snakeHead.style.left.split("px")[0] + 20 + "px"
+            } else {
+                snakeHead.style.top = snakeHead.style.top.split("px")[0] - 40 + "px"
+            }
+        } else {
+            snakeHead.style.top = snakeHead.style.top.split("px")[0] - 40 + "px"
+        }
 
         moveHead("up")
     },
@@ -68,7 +80,19 @@ const moveInDirection = {
             snakeHead.style.top = "280px"
         }
 
-        snakeHead.style.top = Number(snakeHead.style.top.split("px")[0]) + 40 + "px"
+        if (snakeAnimation) {
+            if (snakeHead.classList[1].includes("left")) {
+                snakeHead.style.top = snakeHead.style.top.split("px")[0] + 20 + "px"
+                snakeHead.style.left = snakeHead.style.left.split("px")[0] - 20 + "px"
+            } else if (snakeHead.classList[1].includes("right")) {
+                snakeHead.style.top = snakeHead.style.top.split("px")[0] + 20 + "px"
+                snakeHead.style.left = snakeHead.style.left.split("px")[0] + 20 + "px"
+            } else {
+                snakeHead.style.top = Number(snakeHead.style.top.split("px")[0]) + 40 + "px"
+            }
+        } else {
+            snakeHead.style.top = Number(snakeHead.style.top.split("px")[0]) + 40 + "px"
+        }
 
         moveHead("down")
     },
@@ -77,7 +101,19 @@ const moveInDirection = {
             snakeHead.style.left = "280px"
         }
 
-        snakeHead.style.left = snakeHead.style.left.split("px")[0] - 40 + "px"
+        if (snakeAnimation) {
+            if (snakeHead.classList[1].includes("up")) {
+                snakeHead.style.top = snakeHead.style.top.split("px")[0] - 20 + "px"
+                snakeHead.style.left = snakeHead.style.left.split("px")[0] - 20 + "px"
+            } else if (snakeHead.classList[1].includes("down")) {
+                snakeHead.style.top = snakeHead.style.top.split("px")[0] + 20 + "px"
+                snakeHead.style.left = snakeHead.style.left.split("px")[0] - 20 + "px"
+            } else {
+                snakeHead.style.left = snakeHead.style.left.split("px")[0] - 40 + "px"
+            }
+        } else {
+            snakeHead.style.left = snakeHead.style.left.split("px")[0] - 40 + "px"
+        }
 
         moveHead("left")
     },
@@ -86,7 +122,19 @@ const moveInDirection = {
             snakeHead.style.left = "280px"
         }
 
-        snakeHead.style.left = Number(snakeHead.style.left.split("px")[0]) + 40 + "px"
+        if (snakeAnimation) {
+            if (snakeHead.classList[1].includes("up")) {
+                snakeHead.style.top = snakeHead.style.top.split("px")[0] - 20 + "px"
+                snakeHead.style.left = snakeHead.style.left.split("px")[0] + 20 + "px"
+            } else if (snakeHead.classList[1].includes("down")) {
+                snakeHead.style.top = snakeHead.style.top.split("px")[0] + 20 + "px"
+                snakeHead.style.left = snakeHead.style.left.split("px")[0] + 20 + "px"
+            } else {
+                snakeHead.style.left = Number(snakeHead.style.left.split("px")[0]) + 40 + "px"
+            }
+        } else {
+            snakeHead.style.left = Number(snakeHead.style.left.split("px")[0]) + 40 + "px"
+        }
 
         moveHead("right")
     },
