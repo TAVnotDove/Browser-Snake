@@ -61,16 +61,16 @@ const moveInDirection = {
 
         if (snakeAnimation) {
             if (snakeHead.classList[1].includes("left")) {
-                snakeHead.style.top = snakeHead.style.top.split("px")[0] - 20 + "px"
-                snakeHead.style.left = snakeHead.style.left.split("px")[0] - 20 + "px"
+                snakeHead.style.top = Number(snakeHead.style.top.split("px")[0]) - 20 + "px"
+                snakeHead.style.left = Number(snakeHead.style.left.split("px")[0]) - 20 + "px"
             } else if (snakeHead.classList[1].includes("right")) {
-                snakeHead.style.top = snakeHead.style.top.split("px")[0] - 20 + "px"
-                snakeHead.style.left = snakeHead.style.left.split("px")[0] + 20 + "px"
+                snakeHead.style.top = Number(snakeHead.style.top.split("px")[0]) - 20 + "px"
+                snakeHead.style.left = Number(snakeHead.style.left.split("px")[0]) + 20 + "px"
             } else {
-                snakeHead.style.top = snakeHead.style.top.split("px")[0] - 40 + "px"
+                snakeHead.style.top = Number(snakeHead.style.top.split("px")[0]) - 40 + "px"
             }
         } else {
-            snakeHead.style.top = snakeHead.style.top.split("px")[0] - 40 + "px"
+            snakeHead.style.top = Number(snakeHead.style.top.split("px")[0]) - 40 + "px"
         }
 
         moveHead("up")
@@ -82,11 +82,11 @@ const moveInDirection = {
 
         if (snakeAnimation) {
             if (snakeHead.classList[1].includes("left")) {
-                snakeHead.style.top = snakeHead.style.top.split("px")[0] + 20 + "px"
-                snakeHead.style.left = snakeHead.style.left.split("px")[0] - 20 + "px"
+                snakeHead.style.top = Number(snakeHead.style.top.split("px")[0]) + 20 + "px"
+                snakeHead.style.left = Number(snakeHead.style.left.split("px")[0]) - 20 + "px"
             } else if (snakeHead.classList[1].includes("right")) {
-                snakeHead.style.top = snakeHead.style.top.split("px")[0] + 20 + "px"
-                snakeHead.style.left = snakeHead.style.left.split("px")[0] + 20 + "px"
+                snakeHead.style.top = Number(snakeHead.style.top.split("px")[0]) + 20 + "px"
+                snakeHead.style.left = Number(snakeHead.style.left.split("px")[0]) + 20 + "px"
             } else {
                 snakeHead.style.top = Number(snakeHead.style.top.split("px")[0]) + 40 + "px"
             }
@@ -103,16 +103,16 @@ const moveInDirection = {
 
         if (snakeAnimation) {
             if (snakeHead.classList[1].includes("up")) {
-                snakeHead.style.top = snakeHead.style.top.split("px")[0] - 20 + "px"
-                snakeHead.style.left = snakeHead.style.left.split("px")[0] - 20 + "px"
+                snakeHead.style.top = Number(snakeHead.style.top.split("px")[0]) - 20 + "px"
+                snakeHead.style.left = Number(snakeHead.style.left.split("px")[0]) - 20 + "px"
             } else if (snakeHead.classList[1].includes("down")) {
-                snakeHead.style.top = snakeHead.style.top.split("px")[0] + 20 + "px"
-                snakeHead.style.left = snakeHead.style.left.split("px")[0] - 20 + "px"
+                snakeHead.style.top = Number(snakeHead.style.top.split("px")[0]) + 20 + "px"
+                snakeHead.style.left = Number(snakeHead.style.left.split("px")[0]) - 20 + "px"
             } else {
-                snakeHead.style.left = snakeHead.style.left.split("px")[0] - 40 + "px"
+                snakeHead.style.left = Number(snakeHead.style.left.split("px")[0]) - 40 + "px"
             }
         } else {
-            snakeHead.style.left = snakeHead.style.left.split("px")[0] - 40 + "px"
+            snakeHead.style.left = Number(snakeHead.style.left.split("px")[0]) - 40 + "px"
         }
 
         moveHead("left")
@@ -124,11 +124,11 @@ const moveInDirection = {
 
         if (snakeAnimation) {
             if (snakeHead.classList[1].includes("up")) {
-                snakeHead.style.top = snakeHead.style.top.split("px")[0] - 20 + "px"
-                snakeHead.style.left = snakeHead.style.left.split("px")[0] + 20 + "px"
+                snakeHead.style.top = Number(snakeHead.style.top.split("px")[0]) - 20 + "px"
+                snakeHead.style.left = Number(snakeHead.style.left.split("px")[0]) + 20 + "px"
             } else if (snakeHead.classList[1].includes("down")) {
-                snakeHead.style.top = snakeHead.style.top.split("px")[0] + 20 + "px"
-                snakeHead.style.left = snakeHead.style.left.split("px")[0] + 20 + "px"
+                snakeHead.style.top = Number(snakeHead.style.top.split("px")[0]) + 20 + "px"
+                snakeHead.style.left = Number(snakeHead.style.left.split("px")[0]) + 20 + "px"
             } else {
                 snakeHead.style.left = Number(snakeHead.style.left.split("px")[0]) + 40 + "px"
             }
@@ -197,6 +197,8 @@ function hitApple() {
 }
 
 const moveBody = (elements) => {
+    let firstBodyElement = true
+
     let previousElement = {
         top: snakeHead.style.top,
         left: snakeHead.style.left,
@@ -208,8 +210,31 @@ const moveBody = (elements) => {
             left: element.style.left,
         }
 
-        element.style.top = previousElement.top
-        element.style.left = previousElement.left
+        if (firstBodyElement) {
+            firstBodyElement = false
+
+            const prevTop = Number(previousElement.top.split("px")[0])
+            const prevLeft = Number(previousElement.left.split("px")[0])
+            const currTop = Number(currentElement.top.split("px")[0])
+            const currLeft = Number(currentElement.left.split("px")[0])
+
+            if (prevTop === currTop) {
+                if (prevLeft < currLeft) {
+                    element.style.left = `${currLeft - 40}px`
+                } else {
+                    element.style.left = `${currLeft + 40}px`
+                }
+            } else {
+                if (prevTop < currTop) {
+                    element.style.top = `${currTop - 40}px`
+                } else {
+                    element.style.top = `${currTop + 40}px`
+                }
+            }
+        } else {
+            element.style.top = previousElement.top
+            element.style.left = previousElement.left
+        }
 
         previousElement.top = currentElement.top
         previousElement.left = currentElement.left
