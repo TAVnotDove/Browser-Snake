@@ -388,146 +388,50 @@ label {
 
 
 @keyframes snake-corner-up-right {
-    25% {
-        transform: translate(0%, -33%);
-    }
-
-    50% {
-        transform: translate(33%, -66%);
-    }
-
-    75% {
-        transform: translate(66%, -100%);
-    }
-
     100% {
-        transform: translate(100%, -100%);
+        transform: translate(50%, -50%) rotate(90deg);
     }
 }
 
 @keyframes snake-corner-left-down {
-    25% {
-        transform: translate(-33%, 0%);
-    }
-
-    50% {
-        transform: translate(-66%, 33%);
-    }
-
-    75% {
-        transform: translate(-100%, 66%);
-    }
-
     100% {
-        transform: translate(-100%, 100%);
+        transform: translate(-50%, 50%) rotate(-90deg);
     }
 }
 
 @keyframes snake-corner-up-left {
-    25% {
-        transform: translate(0%, -33%);
-    }
-
-    50% {
-        transform: translate(-33%, -66%);
-    }
-
-    75% {
-        transform: translate(-66%, -100%);
-    }
-
     100% {
-        transform: translate(-100%, -100%);
+        transform: translate(-50%, -50%) rotate(-90deg);
     }
 }
 
 @keyframes snake-corner-right-down {
-    25% {
-        transform: translate(33%, 0%);
-    }
-
-    50% {
-        transform: translate(66%, 33%);
-    }
-
-    75% {
-        transform: translate(100%, 66%);
-    }
-
     100% {
-        transform: translate(100%, 100%);
+        transform: translate(50%, 50%) rotate(90deg);
     }
 }
 
 @keyframes snake-corner-right-up {
-    25% {
-        transform: translate(33%, 0%);
-    }
-
-    50% {
-        transform: translate(66%, -33%);
-    }
-
-    75% {
-        transform: translate(100%, -66%);
-    }
-
     100% {
-        transform: translate(100%, -100%);
+        transform: translate(50%, -50%) rotate(-90deg);
     }
 }
 
 @keyframes snake-corner-down-left {
-    25% {
-        transform: translate(0%, 33%);
-    }
-
-    50% {
-        transform: translate(-33%, 66%);
-    }
-
-    75% {
-        transform: translate(-66%, 100%);
-    }
-
     100% {
-        transform: translate(-100%, 100%);
+        transform: translate(-50%, 50%) rotate(90deg);
     }
 }
 
 @keyframes snake-corner-left-up {
-    25% {
-        transform: translate(-33%, -0%);
-    }
-
-    50% {
-        transform: translate(-66%, -33%);
-    }
-
-    75% {
-        transform: translate(-100%, -66%);
-    }
-
     100% {
-        transform: translate(-100%, -100%);
+        transform: translate(-50%, -50%) rotate(90deg);
     }
 }
 
 @keyframes snake-corner-down-right {
-    25% {
-        transform: translate(0%, 33%);
-    }
-
-    50% {
-        transform: translate(33%, 66%);
-    }
-
-    75% {
-        transform: translate(66%, 100%);
-    }
-
     100% {
-        transform: translate(100%, 100%);
+        transform: translate(50%, 50%) rotate(-90deg);
     }
 }
 

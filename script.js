@@ -54,89 +54,97 @@ function moveHead(direction) {
 }
 
 const moveInDirection = {
-    up: () => {
+    up: (cornerDirection) => {
         if (snakeHead.style.top === "") {
             snakeHead.style.top = "280px"
         }
 
         if (snakeAnimation) {
-            if (snakeHead.classList[1].includes("left")) {
+            if (cornerDirection === "left") {
                 snakeHead.style.top = Number(snakeHead.style.top.split("px")[0]) - 20 + "px"
                 snakeHead.style.left = Number(snakeHead.style.left.split("px")[0]) - 20 + "px"
-            } else if (snakeHead.classList[1].includes("right")) {
+                moveHead("left")
+            } else if (cornerDirection === "right") {
                 snakeHead.style.top = Number(snakeHead.style.top.split("px")[0]) - 20 + "px"
                 snakeHead.style.left = Number(snakeHead.style.left.split("px")[0]) + 20 + "px"
+                moveHead("right")
             } else {
                 snakeHead.style.top = Number(snakeHead.style.top.split("px")[0]) - 40 + "px"
+                moveHead("up")
             }
         } else {
             snakeHead.style.top = Number(snakeHead.style.top.split("px")[0]) - 40 + "px"
+            moveHead("up")
         }
-
-        moveHead("up")
     },
-    down: () => {
+    down: (cornerDirection) => {
         if (snakeHead.style.top === "") {
             snakeHead.style.top = "280px"
         }
 
         if (snakeAnimation) {
-            if (snakeHead.classList[1].includes("left")) {
+            if (cornerDirection === "left") {
                 snakeHead.style.top = Number(snakeHead.style.top.split("px")[0]) + 20 + "px"
                 snakeHead.style.left = Number(snakeHead.style.left.split("px")[0]) - 20 + "px"
-            } else if (snakeHead.classList[1].includes("right")) {
+                moveHead("left")
+            } else if (cornerDirection === "right") {
                 snakeHead.style.top = Number(snakeHead.style.top.split("px")[0]) + 20 + "px"
                 snakeHead.style.left = Number(snakeHead.style.left.split("px")[0]) + 20 + "px"
+                moveHead("right")
             } else {
                 snakeHead.style.top = Number(snakeHead.style.top.split("px")[0]) + 40 + "px"
+                moveHead("down")
             }
         } else {
             snakeHead.style.top = Number(snakeHead.style.top.split("px")[0]) + 40 + "px"
+            moveHead("down")
         }
-
-        moveHead("down")
     },
-    left: () => {
+    left: (cornerDirection) => {
         if (snakeHead.style.left === "") {
             snakeHead.style.left = "280px"
         }
 
         if (snakeAnimation) {
-            if (snakeHead.classList[1].includes("up")) {
+            if (cornerDirection === "up") {
                 snakeHead.style.top = Number(snakeHead.style.top.split("px")[0]) - 20 + "px"
                 snakeHead.style.left = Number(snakeHead.style.left.split("px")[0]) - 20 + "px"
-            } else if (snakeHead.classList[1].includes("down")) {
+                moveHead("up")
+            } else if (cornerDirection === "down") {
                 snakeHead.style.top = Number(snakeHead.style.top.split("px")[0]) + 20 + "px"
                 snakeHead.style.left = Number(snakeHead.style.left.split("px")[0]) - 20 + "px"
+                moveHead("down")
             } else {
                 snakeHead.style.left = Number(snakeHead.style.left.split("px")[0]) - 40 + "px"
+                moveHead("left")
             }
         } else {
             snakeHead.style.left = Number(snakeHead.style.left.split("px")[0]) - 40 + "px"
+            moveHead("left")
         }
-
-        moveHead("left")
     },
-    right: () => {
+    right: (cornerDirection) => {
         if (snakeHead.style.left === "") {
             snakeHead.style.left = "280px"
         }
 
         if (snakeAnimation) {
-            if (snakeHead.classList[1].includes("up")) {
+            if (cornerDirection === "up") {
                 snakeHead.style.top = Number(snakeHead.style.top.split("px")[0]) - 20 + "px"
                 snakeHead.style.left = Number(snakeHead.style.left.split("px")[0]) + 20 + "px"
-            } else if (snakeHead.classList[1].includes("down")) {
+                moveHead("up")
+            } else if (cornerDirection === "down") {
                 snakeHead.style.top = Number(snakeHead.style.top.split("px")[0]) + 20 + "px"
                 snakeHead.style.left = Number(snakeHead.style.left.split("px")[0]) + 20 + "px"
+                moveHead("down")
             } else {
                 snakeHead.style.left = Number(snakeHead.style.left.split("px")[0]) + 40 + "px"
+                moveHead("right")
             }
         } else {
             snakeHead.style.left = Number(snakeHead.style.left.split("px")[0]) + 40 + "px"
+            moveHead("right")
         }
-
-        moveHead("right")
     },
 }
 
@@ -337,12 +345,17 @@ document.addEventListener("keydown", (e) => {
     if (!gameStarted) {
         if (!arrowKeys.includes(e.code)) return
 
-        currentDirection = moveDirection
         gameStarted = true
 
         if (snakeAnimation) {
-            snakeHead.classList.add(`snake-body-${currentDirection}`)
+            if (currentDirection !== moveDirection) {
+                snakeHead.classList.add(`snake-corner-${currentDirection}-${moveDirection}`)
+            } else {
+                snakeHead.classList.add(`snake-body-${currentDirection}`)
+            }
         }
+
+        currentDirection = moveDirection
     }
 
     if (snakeAnimation) return
@@ -699,14 +712,14 @@ function replaceAnimation(newClass) {
 
     moveBody(Array.from(document.querySelectorAll(".snake-body:not(:first-child)")))
 
-    if (animationClass === "snake-body-right") {
-        moveInDirection.right()
-    } else if (animationClass === "snake-body-left") {
-        moveInDirection.left()
-    } else if (animationClass === "snake-body-up") {
-        moveInDirection.up()
-    } else if (animationClass === "snake-body-down") {
-        moveInDirection.down()
+    if (animationClass === "snake-body-right" || animationClass.includes("snake-corner-right")) {
+        moveInDirection.right(animationClass.split("snake-corner-right-")[1])
+    } else if (animationClass === "snake-body-left" || animationClass.includes("snake-corner-left")) {
+        moveInDirection.left(animationClass.split("snake-corner-left-")[1])
+    } else if (animationClass === "snake-body-up" || animationClass.includes("snake-corner-up")) {
+        moveInDirection.up(animationClass.split("snake-corner-up-")[1])
+    } else if (animationClass === "snake-body-down" || animationClass.includes("snake-corner-down")) {
+        moveInDirection.down(animationClass.split("snake-corner-down-")[1])
     }
 
     hitBody()
@@ -717,7 +730,11 @@ function replaceAnimation(newClass) {
     snakeHead.classList.remove(animationClass)
 
     setTimeout(() => {
-        snakeHead.classList.add(`snake-body-${newClass}`)
+        if (animationClass.includes(newClass)) {
+            snakeHead.classList.add(`snake-body-${newClass}`)
+        } else {
+            snakeHead.classList.add(`snake-corner-${animationClass.split("snake-body-")[1]}-${newClass}`)
+        }
     })
 }
 
