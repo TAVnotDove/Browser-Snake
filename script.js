@@ -187,8 +187,12 @@ function hitBody() {
 function hitApple() {
     const apple = document.querySelector(".apple")
 
-    const isHorizontal = snakeHead.style.left < apple.style.left + apple.offsetWidth && snakeHead.style.left + snakeHead.offsetWidth > apple.style.left
-    const isVertical = snakeHead.style.top < apple.style.top + apple.offsetHeight && snakeHead.style.top + snakeHead.offsetHeight > apple.style.top
+    const isHorizontal =
+        Number(snakeHead.style.left.split("px")[0]) < Number(apple.style.left.split("px")[0]) + apple.offsetWidth &&
+        Number(snakeHead.style.left.split("px")[0]) + snakeHead.offsetWidth > Number(apple.style.left.split("px")[0])
+    const isVertical =
+        Number(snakeHead.style.top.split("px")[0]) < Number(apple.style.top.split("px")[0]) + apple.offsetHeight &&
+        Number(snakeHead.style.top.split("px")[0]) + snakeHead.offsetHeight > Number(apple.style.top.split("px")[0])
 
     if (isHorizontal && isVertical) {
         const apple = document.querySelector(".apple")
