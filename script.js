@@ -157,8 +157,12 @@ function hitBody() {
         for (let i = 0; i < newSlice.length; i++) {
             const bodyPart = newSlice[i]
 
-            const isHorizontal = snakeHead.style.left < bodyPart.style.left + bodyPart.offsetWidth && snakeHead.style.left + snakeHead.offsetWidth > bodyPart.style.left
-            const isVertical = snakeHead.style.top < bodyPart.style.top + bodyPart.offsetHeight && snakeHead.style.top + snakeHead.offsetHeight > bodyPart.style.top
+            const isHorizontal =
+                Number(snakeHead.style.left.split("px")[0]) < Number(bodyPart.style.left.split("px")[0]) + bodyPart.offsetWidth &&
+                Number(snakeHead.style.left.split("px")[0]) + snakeHead.offsetWidth > Number(bodyPart.style.left.split("px")[0])
+            const isVertical =
+                Number(snakeHead.style.top.split("px")[0]) < Number(bodyPart.style.top.split("px")[0]) + bodyPart.offsetHeight &&
+                Number(snakeHead.style.top.split("px")[0]) + snakeHead.offsetHeight > Number(bodyPart.style.top.split("px")[0])
 
             if (isHorizontal && isVertical) {
                 if (newHighScore) {
@@ -341,7 +345,10 @@ document.addEventListener("keydown", (e) => {
     if (moveDirection === oppositeDirection[currentDirection]) return
 
     if (snakeAnimation) {
-        if (moveDirection === oppositeDirection[snakeHead.classList[1].split("snake-head-")[1]]) return
+        const divElementStyles = window.getComputedStyle(snakeHead)
+        const animationClass = divElementStyles.animation.split(" ").pop()
+
+        if (moveDirection === oppositeDirection[animationClass]) return
 
         if (arrowKeys.includes(e.code) && gameStarted) currentDirection = moveDirection
     }
@@ -734,10 +741,12 @@ function replaceAnimation(newClass) {
     snakeHead.classList.remove(animationClass)
 
     setTimeout(() => {
-        if (animationClass.includes(newClass)) {
+        const animationDirection = animationClass.split("-").pop()
+
+        if (animationDirection === newClass) {
             snakeHead.classList.add(`snake-body-${newClass}`)
         } else {
-            snakeHead.classList.add(`snake-corner-${animationClass.split("snake-body-")[1]}-${newClass}`)
+            snakeHead.classList.add(`snake-corner-${animationDirection}-${newClass}`)
         }
     })
 }
