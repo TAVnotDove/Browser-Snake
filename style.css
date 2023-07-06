@@ -164,13 +164,6 @@ body {
     height: 40px;
 }
 
-/* .snake-body:nth-child(1),
-.snake-body:nth-child(2),
-.snake-body:nth-last-child(1),
-.snake-body:nth-last-child(3) {
-    transition-duration: 0ms;
-} */
-
 .snake-body-top-right-corner {
     border-radius: 0% 75% 0% 0%;
 }

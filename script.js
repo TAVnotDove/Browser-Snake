@@ -691,11 +691,7 @@ function togglePause() {
     }
 }
 
-if (snakeAnimation) {
-    document.querySelector("#snake-animation-toggle").checked = true
-
-    document.styleSheets[0].cssRules[29].style.cssText = "transition-duration: 300ms;"
-}
+if (snakeAnimation) document.querySelector("#snake-animation-toggle").checked = true
 
 document.querySelector("#settings-button").addEventListener("click", toggleSettings)
 document.querySelector("#game-start-button").addEventListener("click", toggleSettings)
@@ -709,12 +705,6 @@ document.querySelector("#snake-animation-toggle").addEventListener("change", (e)
     localStorage.setItem("snakeAnimation", e.target.checked)
 
     snakeAnimation = e.target.checked
-
-    if (snakeAnimation) {
-        document.styleSheets[0].cssRules[29].style.cssText = "transition-duration: 300ms;"
-    } else {
-        document.styleSheets[0].cssRules[29].style.cssText = "transition-duration: 0ms;"
-    }
 })
 
 function replaceAnimation(newClass) {
