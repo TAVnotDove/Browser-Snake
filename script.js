@@ -404,7 +404,26 @@ function startGame() {
     toggleStart()
 }
 
-let snakeBodyStartPositions = {
+const animatedSnakeHeadStartPositions = {
+    up: {
+        top: "300px",
+        left: "280px",
+    },
+    down: {
+        top: "260px",
+        left: "280px",
+    },
+    left: {
+        top: "280px",
+        left: "300px",
+    },
+    right: {
+        top: "280px",
+        left: "260px",
+    },
+}
+
+const snakeBodyStartPositions = {
     up: {
         top: "320px",
         left: "280px",
@@ -424,6 +443,14 @@ let snakeBodyStartPositions = {
 }
 
 function resetDirections(direction) {
+    if (snakeAnimation) {
+        snakeHead.style.top = animatedSnakeHeadStartPositions[direction || "left"].top
+        snakeHead.style.left = animatedSnakeHeadStartPositions[direction || "left"].left
+    } else {
+        snakeHead.style.top = "280px"
+        snakeHead.style.left = "280px"
+    }
+
     snakeBody.style.top = snakeBodyStartPositions[direction || "left"].top
     snakeBody.style.left = snakeBodyStartPositions[direction || "left"].left
     snakeBody.classList = `snake-body snake-tail-${oppositeDirection[direction || "left"]}`
@@ -439,8 +466,7 @@ function restartGame() {
     }
 
     gameOverContainer.style.display = "none"
-    snakeHead.style.top = "280px"
-    snakeHead.style.left = snakeAnimation ? "300px" : "280px"
+
     currentTailBodyPart = snakeBody
 
     snakeHead.classList.remove(snakeHead.classList[2])
