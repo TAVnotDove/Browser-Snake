@@ -379,6 +379,85 @@ label {
     animation: snake-corner-down-right 1s linear forwards;
 }
 
+.snake-body-corner-up-right {
+    animation: snake-body-corner-up-right 1s linear forwards;
+}
+
+.snake-body-corner-left-down {
+    animation: snake-body-corner-left-down 1s linear forwards;
+}
+
+.snake-body-corner-up-left {
+    animation: snake-body-corner-up-left 1s linear forwards;
+}
+
+.snake-body-corner-right-down {
+    animation: snake-body-corner-right-down 1s linear forwards;
+}
+
+.snake-body-corner-right-up {
+    animation: snake-body-corner-right-up 1s linear forwards;
+}
+
+.snake-body-corner-down-left {
+    animation: snake-body-corner-down-left 1s linear forwards;
+}
+
+.snake-body-corner-left-up {
+    animation: snake-body-corner-left-up 1s linear forwards;
+}
+
+.snake-body-corner-down-right {
+    animation: snake-body-corner-down-right 1s linear forwards;
+}
+
+@keyframes snake-body-corner-up-right {
+    100% {
+        transform: translateY(-100%) rotate(90deg);
+    }
+}
+
+@keyframes snake-body-corner-left-down {
+    100% {
+        transform: translateX(-100%) rotate(-90deg);
+    }
+}
+
+@keyframes snake-body-corner-up-left {
+    100% {
+        transform: translateY(-100%) rotate(-90deg);
+    }
+}
+
+@keyframes snake-body-corner-right-down {
+    100% {
+        transform: translateX(100%) rotate(90deg);
+    }
+}
+
+@keyframes snake-body-corner-right-up {
+    100% {
+        transform: translateX(100%) rotate(-90deg);
+    }
+}
+
+@keyframes snake-body-corner-down-left {
+    100% {
+        transform: translateY(100%) rotate(90deg);
+    }
+}
+
+@keyframes snake-body-corner-left-up {
+    100% {
+        transform: translateX(-100%) rotate(90deg);
+    }
+}
+
+@keyframes snake-body-corner-down-right {
+    100% {
+        transform: translateY(100%) rotate(-90deg);
+    }
+}
 
 @keyframes snake-corner-up-right {
     100% {
