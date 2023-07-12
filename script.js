@@ -346,7 +346,7 @@ document.addEventListener("keydown", (e) => {
 
     if (snakeAnimation) {
         const divElementStyles = window.getComputedStyle(snakeHead)
-        const animationClass = divElementStyles.animation.split(" ").pop()
+        const animationClass = divElementStyles["animation"].split(" ").pop().split("-").pop()
 
         if (moveDirection === oppositeDirection[animationClass]) return
 
@@ -753,14 +753,20 @@ function replaceAnimation(newClass) {
 
     hitBody()
     hitApple()
-    moveTail(currentTailDirection)
+
+    const cornerDirections = animationClass.split("-")
+
+    if (cornerDirections[cornerDirections.length - 1] !== newClass) {
+        moveTail(oppositeDirection[cornerDirections[cornerDirections.length - 1]])
+    } else {
+        moveTail(currentTailDirection)
+    }
+
     changeBodyCorner(Array.from(document.querySelectorAll(".snake-body")))
 
     snakeHead.classList.remove(animationClass)
 
     if (animationClass.includes("corner")) {
-        let cornerDirections = animationClass.split("-")
-
         snakeBody.classList.remove(`snake-body-corner-${cornerDirections[2]}-${cornerDirections[3]}`)
     } else {
         snakeBody.classList.remove(animationClass)
