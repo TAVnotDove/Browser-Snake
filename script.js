@@ -361,10 +361,10 @@ document.addEventListener("keydown", (e) => {
         if (snakeAnimation) {
             if (currentDirection !== moveDirection) {
                 snakeHead.classList.add(`snake-corner-${currentDirection}-${moveDirection}`)
-                snakeBody.classList.add(`snake-body-corner-${currentDirection}-${moveDirection}`)
+                currentTailBodyPart.classList.add(`snake-body-corner-${currentDirection}-${moveDirection}`)
             } else {
                 snakeHead.classList.add(`snake-body-${currentDirection}`)
-                snakeBody.classList.add(`snake-body-${currentDirection}`)
+                currentTailBodyPart.classList.add(`snake-body-${currentDirection}`)
             }
         }
 
@@ -767,9 +767,9 @@ function replaceAnimation(newClass) {
     snakeHead.classList.remove(animationClass)
 
     if (animationClass.includes("corner")) {
-        snakeBody.classList.remove(`snake-body-corner-${cornerDirections[2]}-${cornerDirections[3]}`)
+        currentTailBodyPart.classList.remove(`snake-body-corner-${cornerDirections[2]}-${cornerDirections[3]}`)
     } else {
-        snakeBody.classList.remove(animationClass)
+        currentTailBodyPart.classList.remove(animationClass)
     }
 
     setTimeout(() => {
@@ -777,10 +777,10 @@ function replaceAnimation(newClass) {
 
         if (animationDirection === newClass) {
             snakeHead.classList.add(`snake-body-${newClass}`)
-            snakeBody.classList.add(`snake-body-${newClass}`)
+            currentTailBodyPart.classList.add(`snake-body-${newClass}`)
         } else {
             snakeHead.classList.add(`snake-corner-${animationDirection}-${newClass}`)
-            snakeBody.classList.add(`snake-body-corner-${animationDirection}-${newClass}`)
+            currentTailBodyPart.classList.add(`snake-body-corner-${animationDirection}-${newClass}`)
         }
     })
 }
