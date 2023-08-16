@@ -635,7 +635,7 @@ function changeBodyCorner(elements) {
 function resetHighScore() {
     localStorage.clear()
 
-    toggleSettings()
+    document.querySelector("#reset-high-score-button").disabled = true
 }
 
 document.querySelector("#reset-high-score-button").addEventListener("click", resetHighScore)
